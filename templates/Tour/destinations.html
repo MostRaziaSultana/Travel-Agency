@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Destinations {% endblock %}
+{% block body %}
+
+
+   <!-- Page Title -->
+        <section class="page-title centred" style="background-image: url({{ destination_info.banner_image.url }});">
+            <div class="auto-container">
+                <div class="content-box">
+                    <h1>Destinations</h1>
+                    <p>Discover your next great adventure</p>
+                </div>
+            </div>
+        </section>
+        <!-- End Page Title -->
+
+
+        <!-- place-section -->
+        <section class="place-section sec-pad-2">
+            <div class="anim-icon">
+                <div class="icon anim-icon-1" style="background-image: url(assets/images/icons/anim-icon-1.png);"></div>
+                <div class="icon anim-icon-2" style="background-image: url(assets/images/shape/shape-3.png);"></div>
+                <div class="icon anim-icon-3" style="background-image: url(assets/images/shape/shape-3.png);"></div>
+            </div>
+            <div class="auto-container">
+                <div class="row clearfix">
+                     {% for i in destinations %}
+                    <div class="col-lg-4 col-md-6 col-sm-12 place-block">
+                        <div class="place-block-one">
+                            <div class="inner-box">
+                                <figure class="image-box"><img src="{{ i.image.url }}" alt="destination-images"></figure>
+                                <div class="text">
+                                    <h3><a href="{{ i.image.url }}">{{ i.name }}</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </section>
+        <!-- place-section end -->
+
+{% endblock %}

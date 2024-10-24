@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Gallery {% endblock %}
+{% block body %}
+
+
+   <!-- Page Title -->
+        <section class="page-title centred" style="background-image: url({{ banner_image.banner_image.url }});">
+            <div class="auto-container">
+                <div class="content-box">
+                    <h1>Gallery </h1>
+                    <p>Discover your next great adventure</p>
+                </div>
+            </div>
+        </section>
+        <!-- End Page Title -->
+
+
+        <!-- gallery-section -->
+        <section class="gallery-section">
+            <div class="auto-container">
+                <div class="row clearfix">
+                    {% for image in gallery.get_images %}
+                    <div class="col-lg-4 col-md-6 col-sm-12 gallery-block">
+                        <div class="gallery-block-one">
+                            <div class="inner-box">
+                                <figure class="image-box"><img src="{{ image.image.url }}" alt="gallery-image"></figure>
+                                <div class="view-btn"><a href="{{ image.image.url }}" class="lightbox-image" data-fancybox="gallery"><i class="icon-Plus"></i></a></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <!-- gallery-section end -->
+
+
+
+{% endblock %}

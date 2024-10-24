@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Tour Details {% endblock %}
+{% block body %}
+
+
+
+    <!-- Page Title -->
+    <section class="page-title style-three" style="background-image: url({{ tour_details.bannerimage.url }});">
+        <div class="auto-container">
+            <div class="inner-box">
+<!--                <div class="rating"><span><i class="fas fa-star"></i>8.0 Superb</span></div>-->
+                <h2>{{ tour_details.location }}</h2>
+                <h3>Tk {{tour_details.price }}<span> / Per person</span></h3>
+            </div>
+        </div>
+    </section>
+    <!-- End Page Title -->
+
+
+    <!-- tour-details -->
+    <section class="tour-details">
+        <div class="auto-container">
+            <div class="row clearfix">
+                <div class="col-lg-8 col-md-12 col-sm-12 content-side">
+                    <div class="tour-details-content">
+                        <div class="inner-box">
+                            <div class="text">
+                                <h2>Overview</h2>
+                                <p>{{ tour_details.overview|safe }}</p>
+                                <ul class="info-list clearfix">
+                                    <li><i class="far fa-clock"></i>{{ tour_details.duration }}</li>
+                                    <li><i class="far fa-user"></i>Age {{ tour_details.minimum_age }}+</li>
+                                    <li><i class="far fa-map"></i>{{ tour_details.flight_details }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="overview-inner">
+                            <ul class="overview-list clearfix">
+                                <li><span>Destination:</span>{{ tour_details.destination }}</li>
+                                <li><span>Departure:</span>{{ tour_details.departure_location }}</li>
+                                <li><span>Departure Time:</span>{{ tour_details.start_date }}</li>
+                                <li><span>Return Time:</span>{{ tour_details.end_date }}</li>
+                                <li class="clearfix"><span>Included:</span>
+                                    <ul class="included-list clearfix">
+                                        {{ tour_details.included|safe }}
+                                    </ul>
+                                </li>
+                                <li class="clearfix"><span>Excluded:</span>
+                                    <ul class="excluded-list clearfix">
+                                        {{ tour_details.excluded|safe }}
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tour-plan">
+                            <div class="text">
+                                <h2>Tour Plan</h2>
+                                <p>Aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            </div>
+                            <div class="content-box">
+                                <div class="single-box">
+                                    <span>01</span>
+                                    <h4>8:00 am to 10:00 am</h4>
+                                    <h3>Day 1: Arrive South Africa Forest</h3>
+                                    <p>Aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                    <ul class="list clearfix">
+                                        <li>Air fares</li>
+                                        <li>4 Nights Hotel Accomodation</li>
+                                        <li>Entrance Fees</li>
+                                    </ul>
+                                </div>
+                                <div class="single-box">
+                                    <span>02</span>
+                                    <h4>8:00 am to 10:00 am</h4>
+                                    <h3>Day 2: Arrive South Africa Forest</h3>
+                                    <p>Aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                    <ul class="list clearfix">
+                                        <li>Air fares</li>
+                                        <li>4 Nights Hotel Accomodation</li>
+                                        <li>Entrance Fees</li>
+                                    </ul>
+                                </div>
+                                <div class="single-box">
+                                    <span>03</span>
+                                    <h4>8:00 am to 10:00 am</h4>
+                                    <h3>Day 3: Arrive South Africa Forest</h3>
+                                    <p>Aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                    <ul class="list clearfix">
+                                        <li>Air fares</li>
+                                        <li>4 Nights Hotel Accomodation</li>
+                                        <li>Entrance Fees</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="location-map">
+                            <div class="text">
+                                <h2>View On Map</h2>
+                                <p>Enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex commodo consequat duis aute irure dolor.</p>
+                            </div>
+                            <div class="map-inner">
+                                <div
+                                    class="google-map"
+                                    id="contact-google-map"
+                                    data-map-lat="40.712776"
+                                    data-map-lng="-74.005974"
+                                    data-icon-path="assets/images/icons/map-marker.png"
+                                    data-map-title="Brooklyn, New York, United Kingdom"
+                                    data-map-zoom="12"
+                                    data-markers='{
+                                        "marker-1": [40.712776, -74.005974, "<h4>Branch Office</h4><p>77/99 New York</p>","assets/images/icons/map-marker.png"]
+                                    }'>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="photo-gallery">
+                            <div class="text">
+                                <h2>Photo Gallery</h2>
+                                <p>Enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                            </div>
+                            <div class="image-box clearfix">
+                                <figure class="image">
+                                    <img src="assets/images/resource/destination-4.jpg" alt="">
+                                    <a href="assets/images/resource/destination-4.jpg" class="view-btn lightbox-image" data-fancybox="gallery"><i class="icon-Plus"></i></a>
+                                </figure>
+                                <figure class="image">
+                                    <img src="assets/images/resource/destination-5.jpg" alt="">
+                                    <a href="assets/images/resource/destination-5.jpg" class="view-btn lightbox-image" data-fancybox="gallery"><i class="icon-Plus"></i></a>
+                                </figure>
+                                <figure class="image">
+                                    <img src="assets/images/resource/destination-6.jpg" alt="">
+                                    <a href="assets/images/resource/destination-6.jpg" class="view-btn lightbox-image" data-fancybox="gallery"><i class="icon-Plus"></i></a>
+                                </figure>
+                                <figure class="image">
+                                    <img src="assets/images/resource/destination-7.jpg" alt="">
+                                    <a href="assets/images/resource/destination-7.jpg" class="view-btn lightbox-image" data-fancybox="gallery"><i class="icon-Plus"></i></a>
+                                </figure>
+                                <figure class="image">
+                                    <img src="assets/images/resource/destination-8.jpg" alt="">
+                                    <a href="assets/images/resource/destination-8.jpg" class="view-btn lightbox-image" data-fancybox="gallery"><i class="icon-Plus"></i></a>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
+                    <div class="default-sidebar tour-sidebar ml-20">
+                        <div class="form-widget">
+                            <div class="widget-title" style="text-align: center;">
+                                <h3>Book This Tour</h3>
+                            </div>
+                           <a href="{% url 'bookings' tour_details.id %}" class="theme-btn1">Book Tour</a>
+                        </div>
+                        <div class="sidebar-widget downloads-widget">
+                            <div class="widget-title">
+                                <h3>Downloads</h3>
+                            </div>
+                           <div class="widget-content">
+    <ul class="download-links clearfix">
+        <li>
+            {% if tour_details.travel_direction %}
+                <a href="{{ tour_details.travel_direction.url }}" download>Travel Direction<i class="fas fa-download"></i></a>
+            {% else %}
+                <span>Travel Direction (Not Available)</span>
+            {% endif %}
+        </li>
+        <li>
+            {% if tour_details.documentations %}
+                <a href="{{ tour_details.documentations.url }}" download>Documentation<i class="fas fa-download"></i></a>
+            {% else %}
+                <span>Documentation (Not Available)</span>
+            {% endif %}
+        </li>
+        <li>
+            {% if tour_details.logo_assets %}
+                <a href="{{ tour_details.logo_assets.url }}" download>Logo & Assets<i class="fas fa-download"></i></a>
+            {% else %}
+                <span>Logo & Assets (Not Available)</span>
+            {% endif %}
+        </li>
+    </ul>
+</div>
+
+                        </div>
+                        <div class="advice-widget">
+                            <div class="inner-box" style="background-image: url(assets/images/resource/advice-1.jpg);">
+                                <div class="text">
+                                    <h2>Get <br />{{ tour_extra.discount }}% Off <br />On {{ tour_extra.discounted_destination_name }} Tours</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- tour-details end -->
+
+
+
+{% endblock %}

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-yxont4wec1+2w8-i@o_)c)h_ck872yzxdefz8rp4+*b0u3c2gu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Accounts',
-    'Home'
+    'Deals',
+    'Homepage',
+    'Contact',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -65,10 +69,51 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'Homepage.context_processors.footer_content',
+                'Homepage.context_processors.footer_gallery',
+                'Homepage.context_processors.header',
+                'Homepage.context_processors.contact_us',
             ],
         },
     },
 ]
+
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',  # Use a custom toolbar layout
+        'toolbar_Custom': [
+            # Text styling
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+            ['TextColor', 'BGColor', 'RemoveFormat'],
+
+            # Paragraph formatting
+            ['NumberedList', 'BulletedList', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight',
+             'JustifyBlock'],
+
+            # Links and Media
+            ['Link', 'Unlink', 'Anchor'],
+            ['Image', 'Table', 'HorizontalRule', 'SpecialChar'],
+
+            # Code and source
+            ['Source'],
+
+            # Undo/Redo
+            ['Undo', 'Redo'],
+
+            # Additional features
+            ['Maximize'],
+        ],
+        'height': 400,  # Adjust height as needed
+        'width': '100%',  # Full width
+        'removePlugins': 'elementspath,resize,iframe',  # Remove unnecessary plugins
+        'extraPlugins': 'codesnippet',  # Enable additional plugins
+        'codeSnippet_theme': 'monokai_sublime',  # Set theme for code snippets
+        'allowedContent': True,  # Allow all HTML tags
+        'autoParagraph': False,  # Disable auto-paragraphing to prevent unwanted formatting
+    }
+}
 
 WSGI_APPLICATION = 'Project.wsgi.application'
 

@@ -1,0 +1,382 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Tours {% endblock %}
+{% block body %}
+
+
+  <!-- Page Title -->
+        <section class="page-title style-two centred" style="background-image: url({{ tour_extra.banner_image.url  }});">
+            <div class="auto-container">
+                <div class="content-box">
+                    <h1>Tours </h1>
+                    <p>Discover your next great adventure</p>
+                </div>
+                <div class="form-inner">
+                    <form action="{% url 'tours' %}" method="GET" class="booking-form clearfix">
+                        <div class="form-group">
+                            <input type="text" name="service" placeholder="Where to?" required="">
+                        </div>
+                        <div class="form-group input-date">
+                            <i class="far fa-angle-down"></i>
+                            <input type="text" name="date" placeholder="When?" id="datepicker">
+                        </div>
+<!--                        <div class="form-group">-->
+<!--                            <div class="select-box">-->
+<!--                                <select class="wide" name="travel_type">-->
+<!--                                   <option data-display="Travel Type">Travel Type</option>-->
+<!--                                   <option value="1">Adventure Tours</option>-->
+<!--                                   <option value="2">City Tours</option>-->
+<!--                                   <option value="3">Couple Tours</option>-->
+<!--                                   <option value="4">Group Tours</option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <div class="message-btn">
+                            <button type="submit" class="theme-btn"><i class="far fa-search"></i>Find Now</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!-- End Page Title -->
+
+
+        <!-- tours-page-section -->
+        <section class="tours-page-section">
+            <div class="auto-container">
+                <div class="row clearfix">
+                    <div class="col-lg-8 col-md-12 col-sm-12 content-side">
+                        <div class="item-shorting clearfix">
+                            <div class="left-column pull-left">
+                                <h3>Showing {{ results_start }}-{{ results_end }} of {{ total_results }} Results</h3>
+                            </div>
+<!--                            <div class="right-column pull-right clearfix">-->
+<!--                                <div class="short-box clearfix">-->
+<!--                                    <div class="select-box">-->
+<!--                                        <select class="wide">-->
+<!--                                           <option data-display="Sort by">Sort by</option>-->
+<!--                                           <option value="1">Sort 01</option>-->
+<!--                                           <option value="2">Sort 02</option>-->
+<!--                                           <option value="3">Sort 03</option>-->
+<!--                                           <option value="3">Sort 04</option>-->
+<!--                                        </select>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="menu-box">-->
+<!--                                    <button href="#list-view" class="list-view"><i class="icon-List"></i></button>-->
+<!--                                    <button href="#grid-view" class="grid-view on"><i class="icon-Grid"></i></button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+                        </div>
+                        <div class="wrapper grid">
+                            <div id="grid-view" class="tour-grid-content">
+                                <div class="row clearfix">
+                                    {% for i in tours %}
+                                    <div class="col-lg-6 col-md-6 col-sm-12 tour-block">
+                                        <div class="tour-block-one">
+                                            <div class="inner-box">
+                                                <figure class="image-box">
+                                                    <img src="{{ i.image.url }}" alt="destination_image">
+                                                    <a href="{% url 'tour_details' i.id %}"><i class="fas fa-link"></i></a>
+                                                </figure>
+                                                <div class="lower-content">
+                                                    <h3><a href="{% url 'tour_details' i.id %}">{{ i.location }}</a></h3>
+                                                    <h4>Tk {{ i.price }}<span> / Per person</span></h4>
+                                                    <ul class="info clearfix">
+                                                        <li><i class="far fa-clock"></i>{{ i.duration }}</li>
+                                                        <li><i class="far fa-map"></i>{{ i.flight_details }}</li>
+                                                    </ul>
+                                                    <p>{{ i.description }}</p>
+                                                    <div class="btn-box">
+                                                        <a href="{% url 'tour_details' i.id %}">See Details</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     {% endfor %}
+                                </div>
+                            </div>
+                            {% for i in tours %}
+                            <div id="list-view" class="tour-list-content list-item">
+                                <div class="tour-block-two">
+                                    <div class="inner-box">
+                                        <figure class="image-box">
+                                            <img src="{{ i.image.url }}" alt="destination_image">
+                                            <a href="{% url 'tour_details' i.id %}"><i class="fas fa-link"></i></a>
+                                        </figure>
+                                        <div class="content-box">
+<!--                                            <div class="rating"><span><i class="fas fa-star"></i>8.0 Superb</span></div>-->
+                                            <h3><a href="{% url 'tour_details' i.id %}">{{ i.destination }}</a></h3>
+                                            <h4>Tk {{ i.price }}<span> / Per person</span></h4>
+                                            <p>{{ i.description }}</p>
+                                            <div class="btn-box">
+                                                <a href="{% url 'tour_details' i.id %}">See Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             {% endfor %}
+                        </div>
+                        <div class="pagination-wrapper">
+                        <ul class="pagination clearfix">
+
+                        {% if page_obj.has_previous %}
+                            <li><a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search-field={{ search_query }}{% endif %}"><i class="icon-Left-Arrow"></i></a></li>
+                        {% endif %}
+
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li><a href="?page={{ num }}{% if search_query %}&search-field={{ search_query }}{% endif %}" class="current">{{ num }}</a></li>
+                            {% else %}
+                                <li><a href="?page={{ num }}{% if search_query %}&search-field={{ search_query }}{% endif %}">{{ num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+
+
+                        {% if page_obj.has_next %}
+                            <li><a href="?page={{ page_obj.next_page_number }}{% if search_query %}&search-field={{ search_query }}{% endif %}"><i class="icon-Right-Arrow"></i></a></li>
+                        {% endif %}
+                    </ul>
+                        </div>
+                    </div>
+<!--                    <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">-->
+<!--                        <div class="default-sidebar tour-sidebar ml-20">-->
+<!--                            <div class="sidebar-widget sidebar-search">-->
+<!--                                <div class="widget-title">-->
+<!--                                    <h3>Search</h3>-->
+<!--                                </div>-->
+<!--                                <form action="{% url 'tours' %}" method="GET" class="search-form">-->
+<!--                                    <div class="form-group">-->
+<!--                                        <input type="search" name="search-field" placeholder="Search" required="">-->
+<!--                                        <button type="submit"><i class="fas fa-search"></i></button>-->
+<!--                                    </div>-->
+<!--                                </form>-->
+<!--                            </div>-->
+<!--&lt;!&ndash;                            <div class="sidebar-widget category-widget">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <div class="widget-title">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <h3>Category</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <div class="widget-content">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <ul class="category-list clearfix">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <li class="custom-check-box">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <div class="custom-controls-stacked">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <label class="custom-control material-checkbox">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <input type="checkbox" class="material-control-input">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="material-control-indicator"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="description">Adventure Tours</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                </label>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <li class="custom-check-box">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <div class="custom-controls-stacked">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <label class="custom-control material-checkbox">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <input type="checkbox" class="material-control-input" checked="checked">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="material-control-indicator"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="description">City Tours</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                </label>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <li class="custom-check-box">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <div class="custom-controls-stacked">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <label class="custom-control material-checkbox">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <input type="checkbox" class="material-control-input">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="material-control-indicator"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="description">Couple Tours</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                </label>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <li class="custom-check-box">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <div class="custom-controls-stacked">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <label class="custom-control material-checkbox">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <input type="checkbox" class="material-control-input">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="material-control-indicator"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="description">Group Tours</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                </label>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <li class="custom-check-box">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <div class="custom-controls-stacked">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <label class="custom-control material-checkbox">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <input type="checkbox" class="material-control-input">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="material-control-indicator"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="description">Hosted Tours</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                </label>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
+<!--                            <div class="sidebar-widget price-filter">-->
+<!--                                <div class="widget-title">-->
+<!--                                    <h3>Price Range</h3>-->
+<!--                                </div>-->
+<!--                                <div class="range-slider clearfix">-->
+<!--                                    <div class="value-box clearfix">-->
+<!--                                        <div class="min-value pull-left">-->
+<!--                                            <p>$50.00</p>-->
+<!--                                        </div>-->
+<!--                                        <div class="max-value pull-right">-->
+<!--                                            <p>$100.00</p>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="price-range-slider"></div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="sidebar-widget duration-widget">-->
+<!--                                <div class="widget-title">-->
+<!--                                    <h3>Durations</h3>-->
+<!--                                </div>-->
+<!--                                <div class="widget-content">-->
+<!--                                    <ul class="category-list clearfix">-->
+<!--                                        <li class="custom-check-box">-->
+<!--                                            <div class="custom-controls-stacked">-->
+<!--                                                <label class="custom-control material-checkbox">-->
+<!--                                                    <input type="checkbox" class="material-control-input">-->
+<!--                                                    <span class="material-control-indicator"></span>-->
+<!--                                                    <span class="description">0 - 24 hours</span>-->
+<!--                                                </label>-->
+<!--                                            </div>-->
+<!--                                        </li>-->
+<!--                                        <li class="custom-check-box">-->
+<!--                                            <div class="custom-controls-stacked">-->
+<!--                                                <label class="custom-control material-checkbox">-->
+<!--                                                    <input type="checkbox" class="material-control-input">-->
+<!--                                                    <span class="material-control-indicator"></span>-->
+<!--                                                    <span class="description">1 - 2 days</span>-->
+<!--                                                </label>-->
+<!--                                            </div>-->
+<!--                                        </li>-->
+<!--                                        <li class="custom-check-box">-->
+<!--                                            <div class="custom-controls-stacked">-->
+<!--                                                <label class="custom-control material-checkbox">-->
+<!--                                                    <input type="checkbox" class="material-control-input">-->
+<!--                                                    <span class="material-control-indicator"></span>-->
+<!--                                                    <span class="description">2 - 3 days</span>-->
+<!--                                                </label>-->
+<!--                                            </div>-->
+<!--                                        </li>-->
+<!--                                        <li class="custom-check-box">-->
+<!--                                            <div class="custom-controls-stacked">-->
+<!--                                                <label class="custom-control material-checkbox">-->
+<!--                                                    <input type="checkbox" class="material-control-input">-->
+<!--                                                    <span class="material-control-indicator"></span>-->
+<!--                                                    <span class="description">3 - 4 days</span>-->
+<!--                                                </label>-->
+<!--                                            </div>-->
+<!--                                        </li>-->
+<!--                                        <li class="custom-check-box">-->
+<!--                                            <div class="custom-controls-stacked">-->
+<!--                                                <label class="custom-control material-checkbox">-->
+<!--                                                    <input type="checkbox" class="material-control-input">-->
+<!--                                                    <span class="material-control-indicator"></span>-->
+<!--                                                    <span class="description">4 - 5 days</span>-->
+<!--                                                </label>-->
+<!--                                            </div>-->
+<!--                                        </li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--&lt;!&ndash;                            <div class="sidebar-widget review-widget">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <div class="widget-title">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <h3>Review Score</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <div class="widget-content">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <ul class="category-list clearfix">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <li class="custom-check-box">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <div class="custom-controls-stacked">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <label class="custom-control material-checkbox">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <input type="checkbox" class="material-control-input">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="material-control-indicator"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="description">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    </span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                </label>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <li class="custom-check-box">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <div class="custom-controls-stacked">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <label class="custom-control material-checkbox">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <input type="checkbox" class="material-control-input">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="material-control-indicator"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="description">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star light"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    </span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                </label>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <li class="custom-check-box">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <div class="custom-controls-stacked">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <label class="custom-control material-checkbox">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <input type="checkbox" class="material-control-input">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="material-control-indicator"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="description">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star light"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star light"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    </span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                </label>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <li class="custom-check-box">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <div class="custom-controls-stacked">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <label class="custom-control material-checkbox">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <input type="checkbox" class="material-control-input">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="material-control-indicator"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="description">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star light"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star light"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star light"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    </span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                </label>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <li class="custom-check-box">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <div class="custom-controls-stacked">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <label class="custom-control material-checkbox">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <input type="checkbox" class="material-control-input">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="material-control-indicator"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span class="description">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star light"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star light"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star light"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <i class="icon-Star light"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    </span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                </label>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
+<!--                            <div class="advice-widget">-->
+<!--                                <div class="inner-box" style="background-image: url(assets/images/resource/advice-1.jpg);">-->
+<!--                                    <div class="text">-->
+<!--                                        <h2>Get <br />{{ tour_extra.discount }}% Off <br />On {{ tour_extra.discounted_destination_name }} Tours</h2>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </section>
+        <!-- tours-page-section end -->
+
+
+
+{% endblock %}
