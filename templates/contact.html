@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Contact {% endblock %}
+{% block body %}
+
+  <!-- Page Title -->
+        <section class="page-title centred" style="background-image: url({{ contact.banner_image.url }});">
+            <div class="auto-container">
+                <div class="content-box">
+                    <h1>Contact</h1>
+                    <p>Discover your next great adventure</p>
+                </div>
+            </div>
+        </section>
+        <!-- End Page Title -->
+
+
+        <!-- contact-info-section -->
+        <section class="contact-info-section bg-color-1">
+            <div class="anim-icon">
+                <div class="icon anim-icon-1" style="background-image: url(assets/images/shape/shape-3.png);"></div>
+                <div class="icon anim-icon-2" style="background-image: url(assets/images/shape/shape-3.png);"></div>
+            </div>
+            <div class="auto-container">
+                <div class="row clearfix">
+                    <div class="col-lg-4 col-md-6 col-sm-12 info-column">
+                        <div class="single-info-box wow fadeInUp animated animated" data-wow-delay="00ms" data-wow-duration="1500ms">
+                            <div class="inner-box">
+                                <div class="icon-box"><i class="icon-Location"></i></div>
+                                <h3>Address</h3>
+                                <p>{{ contact.address }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 info-column">
+                        <div class="single-info-box wow fadeInUp animated animated" data-wow-delay="300ms" data-wow-duration="1500ms">
+                            <div class="inner-box">
+                                <div class="icon-box"><i class="icon-Phone"></i></div>
+                                <h3>Phone</h3>
+                                <p><a href="tel:{{ contact.mobile }}">{{ contact.mobile }}</a><br /><a href="tel:{{ contact.hotline }}">{{ contact.hotline }}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 info-column">
+                        <div class="single-info-box wow fadeInUp animated animated" data-wow-delay="600ms" data-wow-duration="1500ms">
+                            <div class="inner-box">
+                                <div class="icon-box"><i class="icon-Envelope"></i></div>
+                                <h3>Email</h3>
+                                <p><a href="mailto:{{ contact.email }}">{{ contact.email }}</a><br /><a href="mailto:{{ contact.support_mail }}">{{ contact.support_mail }}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- contact-info-section end -->
+
+
+        <!-- contact-section -->
+        <section class="contact-section">
+            <div class="auto-container">
+                <div class="row clearfix">
+                    <div class="col-lg-5 col-md-12 col-sm-12 content-column">
+                        <div class="content_block_5">
+                            <div class="content-box">
+                                <div class="sec-title">
+                                    <p>Get in touch</p>
+                                    <h2>Feel Free to Contact with us</h2>
+                                </div>
+                                <div class="text">
+                                    <p>{{ contact.description }}</p>
+                                </div>
+                                <ul class="social-links clearfix">
+                                    <li><a href="{{ footer_content.facebook }}"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="{{ footer_content.twitter }}"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="{{ footer_content.youtube }}"><i class="fab fa-youtube"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-12 col-sm-12 form-column">
+                        <div class="form-inner">
+                            <form method="POST" action="" id="contact-form" class="default-form">
+                                {% csrf_token %}
+                                <div class="row clearfix">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                        <input type="text" name="username" placeholder="Your Name" required="">
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                        <input type="email" name="email" placeholder="Email Address" required="">
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 col-sm-12 form-group">
+                                        <input type="text" name="phone" required="" placeholder="Phone Number">
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 col-sm-12 form-group">
+                                        <input type="text" name="subject" required="" placeholder="Subject">
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                        <textarea name="message" placeholder="Write Message"></textarea>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 form-group message-btn">
+                                        <button class="theme-btn" type="submit" name="submit-form">Submit Now</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- contact-section end -->
+
+{% endblock %}

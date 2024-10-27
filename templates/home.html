@@ -180,7 +180,7 @@
                                         <li><i class="far fa-clock"></i>{{ i.duration }}</li>
                                         <li><i class="far fa-map"></i>{{ i.flight_details }}</li>
                                     </ul>
-                                    <p><p>{{ i.description }}</p>
+                                    <p><p>{{ i.short_description|safe }}</p>
                                     <div class="btn-box">
                                         <a href="{% url 'tour_details' i.id %}">See Details</a>
                                     </div>
@@ -248,9 +248,9 @@
                     <div class="col-lg-4 col-md-6 col-sm-12 place-block">
                         <div class="place-block-one">
                             <div class="inner-box">
-                                <figure class="image-box"><img src="{{ i.image.url }}" alt="{{ i.name }}"></figure>
+                                <figure class="image-box"><img src="{{ i.image.url }}" alt="{{ i.package.destination }}"></figure>
                                 <div class="text">
-                                    <h3><a href="destination-details.html">{{ i.name }}</a></h3>
+                                    <h3><a href="{% url 'destination_details' i.id %}">{{ i.package.destination }}</a></h3>
                                 </div>
                             </div>
                         </div>

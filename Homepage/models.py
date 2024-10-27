@@ -1,4 +1,6 @@
 from django.db import models
+from Deals.models import Package
+from ckeditor.fields import RichTextField
 
 class Header(models.Model):
     logo = models.ImageField(upload_to='header/logo/', blank=True, null=True, default='default_images/default_logo.png')
@@ -19,36 +21,52 @@ class AboutSection(models.Model):
     list_item_1 = models.CharField(max_length=255)
     list_item_2 = models.CharField(max_length=255)
     list_item_3 = models.CharField(max_length=255)
-    button_link = models.URLField(default='#')
 
     def __str__(self):
         return self.title
 
 
-class Destination(models.Model):
+class Destinationinfo(models.Model):
     banner_image = models.ImageField(upload_to='destination_banner/')
     description = models.TextField(default="No description available.")
 
     class Meta:
         verbose_name = "Destination"
-        verbose_name_plural = "Destinations"
+        verbose_name_plural = "Destinationinfo"
 
-    def get_images(self):
-        return DestinationImage.objects.filter(destination=self)
 
     def __str__(self):
         return self.description
 
 
-class DestinationImage(models.Model):
-    destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='images', null=True)
-    image = models.ImageField(upload_to='destinations/')
-    name = models.CharField(max_length=255, default='Unnamed Image')
-    show_on_homepage = models.BooleanField(default=False,
-                                           help_text="Select if this image should appear on the homepage")
+class Destination(models.Model):
+    YES_NO_CHOICES = [
+        ('Yes', 'Yes'),
+        ('No', 'No'),
+    ]
+
+    package = models.ForeignKey(Package, on_delete=models.CASCADE, related_name='destinations',default='destination name')
+    image = models.ImageField(upload_to='destinations/images/', blank=True, null=True,
+                              help_text="Image of the destination")
+    description = RichTextField(help_text="Description of the destination")
+    country_details = RichTextField(help_text="Describe Shortly about the country", null=True, blank=True, default="")
+
+    # Country Details
+    address = models.CharField(max_length=255, help_text="Address of the destination",null=True)
+    visa_requirements = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='Yes',
+                                         help_text="Visa requirements")
+    languages_spoken = models.CharField(max_length=255, help_text="Languages spoken at destination",null=True)
+    currency_used = models.CharField(max_length=100, help_text="Currency used in the country",null=True)
+    distance = models.DecimalField(max_digits=10, decimal_places=1, help_text="Distance to the destination in meter",null=True)
+
+    # Support and Emergency Details
+    support_phone = models.CharField(max_length=20, help_text="Support phone number",null=True)
+    emergency_email = models.EmailField(help_text="Emergency contact email",null=True)
+    show_on_homepage = models.BooleanField(default=False, help_text="Show this destination on the homepage")
 
     def __str__(self):
-        return f'Image {self.id} of {self.destination}'
+        return self.package.destination
+
 
 
 class FooterContent(models.Model):
@@ -72,8 +90,21 @@ class FooterContent(models.Model):
     #     verbose_name_plural = "Footer Info"
 
 
+class FooterGalleryGroup(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Footer gallery group"
+        verbose_name_plural = "Footer gallery groups"
+
+
 class FooterGallery(models.Model):
     image = models.ImageField(upload_to='footer_gallery/')
+    name = models.ForeignKey(FooterGalleryGroup, related_name='images', on_delete=models.CASCADE,null=True)
+
     def __str__(self):
         return f'Image {self.id}'
 

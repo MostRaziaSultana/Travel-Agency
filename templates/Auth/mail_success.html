@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            display: flex; /* Use Flexbox */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 100vh; /* Full viewport height */
+        }
+        h1 {
+            color: #333;
+            font-size: 2.5rem; /* Responsive font size */
+            margin: 20px 0;
+        }
+        p {
+            font-size: 1rem; /* Responsive font size */
+            line-height: 1.6;
+            color: #666;
+            margin: 0 0 20px 0;
+            padding: 0 15px; /* Padding for mobile screens */
+        }
+        .container {
+            max-width: 90%; /* Responsive container width */
+            width: 600px; /* Fixed width for larger screens */
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-size: 1rem; /* Responsive font size */
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem; /* Smaller font size on smaller screens */
+            }
+            p {
+                font-size: 0.9rem; /* Smaller font size on smaller screens */
+                padding: 0 10px; /* Reduced padding */
+            }
+            .button {
+                padding: 10px 20px; /* Adjusted padding */
+                font-size: 0.9rem; /* Smaller font size */
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem; /* Even smaller font size on very small screens */
+            }
+            p {
+                font-size: 0.8rem; /* Smaller font size on very small screens */
+            }
+            .button {
+                padding: 8px 16px; /* Further adjusted padding */
+                font-size: 0.8rem; /* Smaller font size */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Check Your Mail</h1>
+        <p>An email has been sent to your inbox. Please check your email to complete the process.</p>
+        <a href="https://mail.google.com" class="button">Go to Mailbox</a>
+    </div>
+</body>
+</html>

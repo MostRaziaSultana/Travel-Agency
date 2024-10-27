@@ -6402,6 +6402,7 @@ div#mCSB_1_container{
 .booking-process-content .processing-form .form-group input[type='text'],
 .booking-process-content .processing-form .form-group input[type='email'],
 .booking-process-content .processing-form .form-group input[type='number'],
+.booking-process-content .processing-form .form-group input[type='password'],
 .booking-process-content .processing-form .form-group textarea{
   position: relative;
   display: block;

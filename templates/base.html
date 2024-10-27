@@ -35,6 +35,87 @@
 <!-- page wrapper -->
 <body>
 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+<style>
+    .alert .btn-close {
+        position: absolute;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        box-shadow: none;
+        z-index: 1050;
+        top: 10px; /* Adjust as needed */
+        right: 10px; /* Adjust as needed */
+    }
+    .alert {
+        font-family: Arial, sans-serif; /* Sans-serif font family */
+        font-size: 15px;
+        z-index: 1000;
+        position: relative;
+        padding: .75rem 3rem;
+        margin-bottom: 1rem; /* Reduced margin */
+        border: 1px solid transparent;
+        border-radius: .25rem;
+    }
+    .alert-success {
+        background-color: #4cda6f; /* Green background */
+        color: #ffffff; /* White text color */
+    }
+    .alert-warning {
+        background-color: #e11111; /* Red background for error */
+        color: #ffffff; /* White text color */
+    }
+
+    #popupMessages {
+        position: fixed; /* Fixed position */
+        top: 50%; /* Center vertically */
+        left: 50%; /* Center horizontally */
+        transform: translate(-50%, -50%); /* Offset to center */
+        z-index: 1000; /* Ensure it's above other content */
+    }
+
+    #popupMessages:hover {
+        transform: unset !important;
+    }
+</style>
+
+{% if messages %}
+    <div id="popupMessages">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Delayed removal function
+        function removePopup() {
+            setTimeout(function() {
+                var popupMessages = document.getElementById('popupMessages');
+                if (popupMessages) {
+                    popupMessages.innerHTML = '';
+                }
+            }, 3000); // 3000 milliseconds = 3 seconds
+        }
+
+        // Show popup on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            var popupMessages = document.getElementById('popupMessages');
+            if (popupMessages) {
+                // Start removal countdown
+                removePopup();
+            }
+        });
+    </script>
+
+    <!-- Optional: Include Animate.css for animation effects -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+{% endif %}
+
+
+
     <div class="boxed_wrapper">
 
 
@@ -93,13 +174,13 @@
                                     <ul class="navigation clearfix">
                                         <li class="current dropdown"><a href="/">Home</a>
                                         </li>
-<!--                                        <li class="dropdown"><a href="index.html">Destinations</a>-->
+                                        <li class="dropdown"><a href="{% url 'destinations' %}">Destinations</a>
 <!--                                            <ul>-->
 <!--                                                <li><a href="destination.html">Destinations 01</a></li>-->
 <!--                                                <li><a href="destination-2.html">Destinations 02</a></li>-->
 <!--                                                <li><a href="destination-details.html">Destination Details</a></li>-->
 <!--                                            </ul>-->
-<!--                                        </li>-->
+                                        </li>
                                         <li class="dropdown"><a href="{% url 'tours' %}">Tours</a>
 <!--                                            <ul>-->
 <!--                                                <li><a href="tour-1.html">Tours Grid</a></li>-->

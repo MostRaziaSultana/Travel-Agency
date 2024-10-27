@@ -31,7 +31,7 @@
                             <div class="inner-box">
                                 <figure class="image-box"><img src="{{ i.image.url }}" alt="destination-images"></figure>
                                 <div class="text">
-                                    <h3><a href="{{ i.image.url }}">{{ i.name }}</a></h3>
+                                    <h3><a href="{% url 'destination_details' i.id %}">{{ i.package.destination }}</a></h3>
                                 </div>
                             </div>
                         </div>

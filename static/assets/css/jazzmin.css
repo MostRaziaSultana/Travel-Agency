@@ -1,0 +1,34 @@
+/* Hide the checkboxes */
+.toggle-checkbox {
+    display: none;
+}
+
+/* Initially hide child nav-items */
+.child-nav-item {
+    display: none;
+}
+
+/* When checkbox is checked, show the child nav-items */
+.toggle-checkbox:checked + .nav-link + .child-nav-item,
+.toggle-checkbox:checked + .child-nav-item {
+    display: block;
+}
+
+/* Optional: Add dropdown arrow to nav-headers */
+.nav-header::after {
+    content: ' ▼';
+    float: right;
+    font-size: 0.8em;
+    margin-right: 10px;
+}
+
+/* Change the dropdown arrow when active */
+.toggle-checkbox:checked + .nav-link::after,
+.toggle-checkbox:checked::after {
+    content: ' ▲';
+}
+.nav-header {
+    color: #ffff !important;
+}
+
+

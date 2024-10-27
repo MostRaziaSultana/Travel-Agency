@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import CustomUser,Profile
 # Register your models here.
 
 
@@ -16,4 +16,6 @@ class CustomUserAdmin(UserAdmin):
     list_filter = UserAdmin.list_filter + ('is_vendor',)  # Optional: add filter
 
 
-admin.site.register(CustomUser, CustomUserAdmin)
+# admin.site.register(CustomUser, CustomUserAdmin)
+
+admin.site.register(Profile)

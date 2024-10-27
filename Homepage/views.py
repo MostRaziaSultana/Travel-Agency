@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from .models import *
-from Deals.models import Package
+from Deals.models import Package,Tour_page
 # Create your views here.
 def home(request):
 
     about_section = AboutSection.objects.first()
-    destinations = DestinationImage.objects.all()
-    destination_info = Destination.objects.first()
+    destinations = Destination.objects.all()
+    destination_info = Destinationinfo.objects.first()
     header = Header.objects.first()
     tours = Package.objects.all()
 
@@ -26,8 +26,16 @@ def gallery(request):
 
 
 def destinations(request):
-    destinations = DestinationImage.objects.all()
-    destination_info = Destination.objects.first()
+    destinations = Destination.objects.all()
+    destination_info = Destinationinfo.objects.first()
     return render(request, 'Tour/destinations.html', { 'destinations': destinations,
         'destination_info':destination_info,})
+
+
+def destination_details(request, id):
+    destination_details = Destination.objects.get(id=id)
+    tour_extra = Tour_page.objects.first()
+
+    return render(request, 'Tour/destination_details.html', {'destination_details':destination_details,
+                                                             'tour_extra':tour_extra})
 

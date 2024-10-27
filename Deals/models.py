@@ -1,5 +1,5 @@
 from django.db import models
-from Accounts.models import CustomUser as User
+from Accounts.models import User
 import uuid
 from ckeditor.fields import RichTextField
 
@@ -17,7 +17,8 @@ class Package(models.Model):
     location = models.CharField(max_length=255)
     short_description = RichTextField()
     destination = models.CharField(max_length=255)
-    price = models.DecimalField(max_digits=10, decimal_places=2, help_text="Price per person")
+    price = models.DecimalField(max_digits=10, decimal_places=2, help_text="Price per adult")
+    child_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, help_text="Price per child")
     total_seats = models.IntegerField()
     available_seats = models.IntegerField()
     start_date = models.DateTimeField()
@@ -27,13 +28,9 @@ class Package(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='tours/', default='tours/default.jpg')
-    bannerimage = models.ImageField(upload_to='tour_banners/', default='tour_banners/default.jpg')
-    cancellation_policy = RichTextField(blank=True, null=True)
-    additional_services = RichTextField(blank=True, null=True)
+    bannerimage = models.ImageField(upload_to='tour_banners/', default='tour_banners/default.jpg',help_text="Banner image for the single tour")
     duration = models.CharField(max_length=50, null=True)
     overview = RichTextField(blank=True, null=True, help_text="Brief overview of the package")
-    banner_image = models.ImageField(upload_to='tours_details/banners/', blank=True, null=True,
-                                     help_text="Banner image for the single tour")
     included = RichTextField(blank=True, null=True, help_text="What is included in this package")
     excluded = RichTextField(blank=True, null=True, help_text="What is excluded from this package")
     flight_details = models.CharField(max_length=100, blank=True, null=True,
@@ -95,6 +92,8 @@ class Booking(models.Model):
     address_2 = models.CharField(max_length=255, blank=True, null=True)
     city = models.CharField(max_length=100,null=True)
     zip_code = models.CharField(max_length=20,null=True)
+    adult = models.PositiveIntegerField(default=1)
+    children =  models.PositiveIntegerField(default=0, blank=True, null=True)
     message = models.TextField(blank=True, null=True)
 
 

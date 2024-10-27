@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Forgot Password {% endblock %}
+{% block body %}
+
+
+    <!-- Page Title -->
+    <section class="page-title centred" style="background-image: url(assets/images/background/page-title-5.jpg);">
+        <div class="auto-container">
+            <div class="content-box">
+                <h1>Forgot Password</h1>
+                <p>Reset your password to continue your journey</p>
+            </div>
+        </div>
+    </section>
+    <!-- End Page Title -->
+
+
+    <!-- forgot-password-section -->
+    <section class="register-section sec-pad">
+        <div class="anim-icon">
+            <div class="icon anim-icon-1" style="background-image: url(assets/images/shape/shape-16.png);"></div>
+            <div class="icon anim-icon-2" style="background-image: url(assets/images/shape/shape-17.png);"></div>
+        </div>
+        <div class="auto-container">
+            <div class="inner-box">
+                <div class="sec-title centred">
+                    <p>Forgot Password</p>
+                    <h2>Enter your email to reset your password</h2>
+                </div>
+                <div class="form-inner">
+                    <form action="" method="POST" class="register-form">
+                        {% csrf_token %}
+                        <div class="row clearfix">
+                            <div class="col-lg-12 col-md-12 col-sm-12 column">
+                                <div class="form-group">
+                                    <label>Your Email Address</label>
+                                    <input type="email" name="email" required="">
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 column">
+                                <div class="form-group message-btn">
+                                    <button type="submit" class="theme-btn">Send Reset Link</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="other-text">Remembered your password? <a href="{% url 'login' %}">Sign In</a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- forgot-password-section end -->
+
+
+{% endblock %}
