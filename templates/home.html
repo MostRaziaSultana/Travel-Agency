@@ -211,7 +211,7 @@
                         <div class="inner-box">
                             <figure class="image-box"><img src="{{ i.image.url }}" alt="images"></figure>
                             <div class="content-box">
-                                <span>Get 50% Off</span>
+                                <span>{{ i.offer }}</span>
                                 <h3><a href="{% url 'tour_details' i.id %}">{{ i.destination }}</a></h3>
                                 <h4>Tk {{ i.price }}</h4>
                             </div>
