@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login as auth_login
 import asyncio
 from asgiref.sync import sync_to_async
 from django.conf import settings
+from django.contrib.auth import logout as auth_logout
 
 import uuid
 from django.core.mail import send_mail
@@ -99,8 +100,8 @@ def login(request):
     return render(request, 'Auth/login.html')
 
 
-def logout(request):
-    logout(request)
+def custom_logout(request):
+    auth_logout(request)
     messages.success(request, "User logged out!")
     return redirect('login')
 

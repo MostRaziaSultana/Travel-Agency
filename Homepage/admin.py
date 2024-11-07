@@ -6,7 +6,6 @@ from datetime import datetime
 
 from .models import (AboutSection,
                      Destinationinfo,
-                     Destination,
                      FooterContent,
                      FooterGallery,
                      FooterGalleryGroup,
@@ -15,14 +14,6 @@ from .models import (AboutSection,
 
 admin.site.register(Header)
 admin.site.register(Destinationinfo)
-class DestinationAdmin(admin.ModelAdmin):
-    list_display = ('get_destination_name','package' ,'languages_spoken', 'visa_requirements', 'support_phone','show_on_homepage')
-
-    def get_destination_name(self, obj):
-        return obj.package.destination
-    get_destination_name.short_description = 'Destination Name'
-
-admin.site.register(Destination, DestinationAdmin)
 
 
 class FooterGalleryInline(admin.TabularInline):

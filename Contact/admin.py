@@ -8,7 +8,7 @@ class ContactUsAdmin(admin.ModelAdmin):
 
 admin.site.register(ContactUs, ContactUsAdmin)
 class UserMessageAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'mobile', 'created_at', 'seen')
+    list_display = ('id','name', 'email', 'mobile', 'created_at', 'seen')
     search_fields = ('name', 'email', 'mobile')
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
@@ -19,3 +19,4 @@ class UserMessageAdmin(admin.ModelAdmin):
         return super(UserMessageAdmin, self).change_view(request, object_id, form_url, extra_context)
 
 admin.site.register(UserMessage, UserMessageAdmin)
+

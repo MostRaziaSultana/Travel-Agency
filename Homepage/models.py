@@ -1,5 +1,4 @@
 from django.db import models
-from Deals.models import Package
 from ckeditor.fields import RichTextField
 
 class Header(models.Model):
@@ -37,36 +36,6 @@ class Destinationinfo(models.Model):
 
     def __str__(self):
         return self.description
-
-
-class Destination(models.Model):
-    YES_NO_CHOICES = [
-        ('Yes', 'Yes'),
-        ('No', 'No'),
-    ]
-
-    package = models.ForeignKey(Package, on_delete=models.CASCADE, related_name='destinations',default='destination name')
-    image = models.ImageField(upload_to='destinations/images/', blank=True, null=True,
-                              help_text="Image of the destination")
-    description = RichTextField(help_text="Description of the destination")
-    country_details = RichTextField(help_text="Describe Shortly about the country", null=True, blank=True, default="")
-
-    # Country Details
-    address = models.CharField(max_length=255, help_text="Address of the destination",null=True)
-    visa_requirements = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='Yes',
-                                         help_text="Visa requirements")
-    languages_spoken = models.CharField(max_length=255, help_text="Languages spoken at destination",null=True)
-    currency_used = models.CharField(max_length=100, help_text="Currency used in the country",null=True)
-    distance = models.DecimalField(max_digits=10, decimal_places=1, help_text="Distance to the destination in meter",null=True)
-
-    # Support and Emergency Details
-    support_phone = models.CharField(max_length=20, help_text="Support phone number",null=True)
-    emergency_email = models.EmailField(help_text="Emergency contact email",null=True)
-    show_on_homepage = models.BooleanField(default=False, help_text="Show this destination on the homepage")
-
-    def __str__(self):
-        return self.package.destination
-
 
 
 class FooterContent(models.Model):

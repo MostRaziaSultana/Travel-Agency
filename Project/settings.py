@@ -73,6 +73,7 @@ TEMPLATES = [
                 'Homepage.context_processors.footer_gallery',
                 'Homepage.context_processors.header',
                 'Homepage.context_processors.contact_us',
+                'Homepage.context_processors.last_bookings',
             ],
         },
     },

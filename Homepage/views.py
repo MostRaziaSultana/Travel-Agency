@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import *
-from Deals.models import Package,Tour_page
+from Deals.models import Package,Tour_page,Destination
 # Create your views here.
 def home(request):
 

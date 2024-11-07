@@ -23,7 +23,7 @@ urlpatterns = [
 
     path('registration/', registration, name='registration'),
     path('login/', login, name='login'),
-    path('logout/', logout, name='logout'),
+    path('logout/', custom_logout, name='logout'),
     path('contact/', contact, name='contact'),
     path('forgetpassword/', forgetpassword, name="forgetpassword"),
     path('change_password/<token>/', change_password, name="change_password"),

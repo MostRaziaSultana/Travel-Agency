@@ -1,0 +1,301 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %} Admin Dashboard {% endblock %}
+
+{% block extrastyle %}
+<!-- Custom Admin CSS for enhanced visuals -->
+<link rel="stylesheet" href="{% static 'admin/css/custom_admin.css' %}">
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .bg-dark {
+        background-color: #343a40 !important;
+    }
+    .bg-dark .text-white {
+        color: #fff !important;
+    }
+    .bg-dark .text-primary {
+        color: #007bff !important;
+    }
+    .rounded {
+        border-radius: 15px;
+    }
+    .p-4 {
+        padding: 1.5rem !important;
+    }
+    .fa-solid {
+        font-size: 3rem;
+    }
+    .ms-3 {
+        margin-left: 1rem !important;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+    .dashboard-stats {
+        margin-top: 3rem;
+    }
+    .dashboard-stats .col-xl-3 {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1.5rem;
+    }
+    .dashboard-stats .btn {
+        margin-top: 0 !important;
+    }
+    .bg-dark {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .mt-0 {
+        margin-top: 0 !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Main content -->
+        <main class="col-md-12 ms-sm-auto col-lg-12 px-md-4">
+            <!-- Dashboard Stats Section -->
+            <div class="row dashboard-stats">
+                <!-- Total Users -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-dark rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fa-solid fa-users text-primary"></i>
+                        <div class="ms-3 text-white">
+                            <p class="mb-2">Total Users</p>
+                            <h6 class="mb-0 text-white">{{ total_users }}</h6>
+                        </div>
+                    </div>
+                    <a href="{% url 'admin:auth_user_changelist' %}" class="btn btn-primary w-100">See Users</a>
+                </div>
+
+<!--                &lt;!&ndash; Total Bookings &ndash;&gt;-->
+<!--                <div class="col-sm-6 col-xl-3">-->
+<!--                    <div class="bg-dark rounded d-flex align-items-center justify-content-between p-4">-->
+<!--                        <i class="fa-solid fa-book text-primary"></i>-->
+<!--                        <div class="ms-3 text-white">-->
+<!--                            <p class="mb-2">Total Bookings</p>-->
+<!--                            <h6 class="mb-0 text-white">4</h6> &lt;!&ndash; Dynamic number &ndash;&gt;-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <a href="" class="btn btn-primary w-100">See Bookings</a>-->
+<!--                </div>-->
+
+                <!-- Total Packages -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-dark rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fa-solid fa-box text-primary"></i>
+                        <div class="ms-3 text-white">
+                            <p class="mb-2">Total Packages</p>
+                            <h6 class="mb-0 text-white">{{ total_packages }}</h6>
+                        </div>
+                    </div>
+                    <a href="{% url 'admin:Deals_package_changelist' %}" class="btn btn-primary w-100">See Packages</a>
+                </div>
+
+                <!-- Total Destinations -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-dark rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fa-solid fa-map-marker-alt text-primary"></i>
+                        <div class="ms-3 text-white">
+                            <p class="mb-2">Total Destinations</p>
+                            <h6 class="mb-0 text-white">{{ total_destinations }}</h6>
+                        </div>
+                    </div>
+                    <a href="{% url 'admin:Deals_destination_changelist' %}" class="btn btn-primary w-100">See Destinations</a>
+                </div>
+
+                <!-- Total Booked -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-dark rounded d-flex align-items-center justify-content-between p-4">
+                       <i class="fa-solid fa-calendar-check text-primary"></i>
+                        <div class="ms-3 text-white">
+                            <p class="mb-2">Total Booked</p>
+                            <h6 class="mb-0 text-white">{{ total_booked  }}</h6>
+                        </div>
+                    </div>
+                    <a href="{% url 'admin:Deals_booking_changelist' %}" class="btn btn-primary w-100">See Bookings</a>
+                </div>
+
+                 <div class="col-sm-6 col-xl-3">
+                    <div class="bg-dark rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fa-solid fa-envelope text-primary"></i>
+                        <div class="ms-3 text-white">
+                            <p class="mb-2">Total Messages</p>
+                            <h6 class="mb-0 text-white">{{ total_messages }}</h6>
+                        </div>
+                    </div>
+                    <a href="{% url 'admin:Contact_usermessage_changelist' %}" class="btn btn-primary w-100">See Messages</a>
+                </div>
+
+                   <!-- Last 10 Bookings -->
+               <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <h3>Last 10 Bookings</h3>
+                        <a href="{% url 'admin:Deals_booking_changelist' %}" class="btn btn-primary">Show All</a>
+                    </div>
+                    <div class="bg-light rounded p-3">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>User</th>
+                                    <th>Package</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for booking in last_bookings %}
+                                <tr>
+                                    <td>{{ booking.id }}</td>
+                                    <td>{{ booking.creator }}</td>
+                                     <td>{{ booking.package_id.destination }}</td>
+                                    <td>{{ booking.created_at|date:"F j, Y" }}</td>
+                                    <td>{{ booking.status }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .chart-container {
+        width: 80%;
+        margin: auto;
+        padding: 20px;
+    }
+</style>
+
+<section id="visualization-section">
+    <!-- Bookings by Package -->
+    <div class="chart-container">
+        <h3>Number of Bookings by Package</h3>
+        <canvas id="bookingsByPackageChart"></canvas>
+    </div>
+
+    <!-- Booking Status Counts -->
+    <div class="chart-container">
+        <h3>Booking Status Counts</h3>
+        <canvas id="bookingStatusCountsChart"></canvas>
+    </div>
+
+    <!-- Travel Status by Package -->
+    <div class="chart-container">
+        <h3>Travel Status by Package</h3>
+        <canvas id="travelStatusByPackageChart"></canvas>
+    </div>
+
+    <!-- Revenue by Package -->
+    <div class="chart-container">
+        <h3>Revenue by Package</h3>
+        <canvas id="revenueByPackageChart"></canvas>
+    </div>
+
+    <!-- Discounted Destinations -->
+    <div class="chart-container">
+        <h3>Discounted Destinations</h3>
+        <canvas id="discountedDestinationsChart"></canvas>
+    </div>
+</section>
+
+<script>
+    // Data received from the Django context processor
+    const data = {{ get_visualization_data | safe }};
+
+    // Chart.js Configuration Functions
+    function createBarChart(ctx, labels, data, label) {
+        return new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    function createPieChart(ctx, labels, data, label) {
+        return new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    }
+
+    // 1. Bookings by Package
+    const bookingsByPackageLabels = data.bookings_by_package.map(item => item[0]);
+    const bookingsByPackageData = data.bookings_by_package.map(item => item[1]);
+    createBarChart(document.getElementById('bookingsByPackageChart').getContext('2d'), bookingsByPackageLabels, bookingsByPackageData, 'Bookings by Package');
+
+    // 2. Booking Status Counts
+    const bookingStatusCountsLabels = data.booking_status_counts.map(item => item[0]);
+    const bookingStatusCountsData = data.booking_status_counts.map(item => item[1]);
+    createPieChart(document.getElementById('bookingStatusCountsChart').getContext('2d'), bookingStatusCountsLabels, bookingStatusCountsData, 'Booking Status Counts');
+
+    // 3. Travel Status by Package
+    const travelStatusByPackageLabels = data.travel_status_by_package.map(item => `${item[0]} (${item[1]})`);
+    const travelStatusByPackageData = data.travel_status_by_package.map(item => item[2]);
+    createBarChart(document.getElementById('travelStatusByPackageChart').getContext('2d'), travelStatusByPackageLabels, travelStatusByPackageData, 'Travel Status by Package');
+
+    // 4. Revenue by Package
+    const revenueByPackageLabels = data.revenue_by_package.map(item => item[0]);
+    const revenueByPackageData = data.revenue_by_package.map(item => item[1]);
+    createBarChart(document.getElementById('revenueByPackageChart').getContext('2d'), revenueByPackageLabels, revenueByPackageData, 'Revenue by Package');
+
+    // 5. Discounted Destinations
+    const discountedDestinationsLabels = data.discounted_destinations.map(item => item[0]);
+    const discountedDestinationsData = data.discounted_destinations.map(item => item[1]);
+    createBarChart(document.getElementById('discountedDestinationsChart').getContext('2d'), discountedDestinationsLabels, discountedDestinationsData, 'Discounted Destinations');
+</script>
+
+{% endblock %}

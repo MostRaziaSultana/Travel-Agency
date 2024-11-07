@@ -19,6 +19,8 @@ class Package(models.Model):
     destination = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2, help_text="Price per adult")
     child_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, help_text="Price per child")
+    offer = models.CharField(max_length=255, blank=True, null=True, help_text="Special offers for the package")
+    total_seats = models.IntegerField()
     total_seats = models.IntegerField()
     available_seats = models.IntegerField()
     start_date = models.DateTimeField()
@@ -46,11 +48,11 @@ class Package(models.Model):
     show_on_homepage = models.BooleanField(default=False,
                                            help_text="Select if this package should appear on the homepage")
 
-
-    class Meta:
-        permissions = [
-            ("can_crud_package", "Can CRUD Package"),
-        ]
+    #
+    # class Meta:
+    #     permissions = [
+    #         ("can_crud_package", "Can CRUD Package"),
+    #     ]
 
     def __str__(self):
         return self.location
@@ -77,7 +79,7 @@ class Booking(models.Model):
         ('Completed', 'Completed'),
     ]
 
-    customer_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     package_id = models.ForeignKey('Package', on_delete=models.CASCADE)
     booking_date = models.DateField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
@@ -98,7 +100,7 @@ class Booking(models.Model):
 
 
     def __str__(self):
-        return f"Booking {self.id} for {self.customer_id.username} - {self.package_id.destination}"
+        return f"Booking {self.id} for {self.creator} - {self.package_id.destination}"
 
 
 class Tour_page(models.Model):
@@ -109,3 +111,32 @@ class Tour_page(models.Model):
 
     def __str__(self):
         return f"Tours Page - Discount: {self.discount}%"
+
+
+class Destination(models.Model):
+    YES_NO_CHOICES = [
+        ('Yes', 'Yes'),
+        ('No', 'No'),
+    ]
+
+    package = models.ForeignKey(Package, on_delete=models.CASCADE, related_name='destinations',default='destination name')
+    image = models.ImageField(upload_to='destinations/images/', blank=True, null=True, default='destinations/images/default-image.jpg',
+                              help_text="Image of the destination")
+    description = RichTextField(help_text="Description of the destination")
+    country_details = RichTextField(help_text="Describe Shortly about the country", null=True, blank=True, default="")
+
+    # Country Details
+    address = models.CharField(max_length=255, help_text="Address of the destination",null=True)
+    visa_requirements = models.CharField(max_length=3, choices=YES_NO_CHOICES, default='Yes',
+                                         help_text="Visa requirements")
+    languages_spoken = models.CharField(max_length=255, help_text="Languages spoken at destination",null=True)
+    currency_used = models.CharField(max_length=100, help_text="Currency used in the country",null=True)
+    distance = models.DecimalField(max_digits=10, decimal_places=1, help_text="Distance to the destination in meter",null=True)
+
+    # Support and Emergency Details
+    support_phone = models.CharField(max_length=20, help_text="Support phone number",null=True)
+    emergency_email = models.EmailField(help_text="Emergency contact email",null=True)
+    show_on_homepage = models.BooleanField(default=False, help_text="Show this destination on the homepage")
+
+    def __str__(self):
+        return self.package.destination

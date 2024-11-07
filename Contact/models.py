@@ -1,6 +1,4 @@
 import datetime
-from django.utils.html import format_html
-
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
@@ -29,6 +27,6 @@ class UserMessage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     seen = models.BooleanField(default=False)
     class Meta:
-        verbose_name_plural = "Messages" + format_html('<span style="color:red, font-weight:bold">Shoily</span>')
+        verbose_name_plural = "Messages"
     def __str__(self):
         return f"{self.name} - {self.subject}"

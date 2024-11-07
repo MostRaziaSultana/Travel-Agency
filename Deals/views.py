@@ -13,14 +13,14 @@ def tours(request):
     tour_extra = Tour_page.objects.first()
 
     service = request.GET.get('service')
-    travel_type = request.GET.get('travel_type')
     date = request.GET.get('date')
 
-
-    # if service:
-    #     tours = tours.filter(Q(destination__icontains=service))
-    # if date:
-    #     tours = tours.filter(Q(tour_date__icontains=date))
+    if service:
+        tours = tours.filter(
+            Q(destination__icontains=service) | Q(location__icontains=service)
+        )
+    if date:
+            Q(start_date__icontains=date) | Q(end_date__icontains=date)
 
 
     search_query = request.GET.get('search-field')
@@ -40,7 +40,6 @@ def tours(request):
                                                 # 'search_query': search_query,
                                                 'tour_extra':tour_extra,
                                                 'service': service,
-                                                'travel_type': travel_type,
                                                 'date': date,
                                                 })
 
@@ -76,10 +75,10 @@ def bookings(request, id):
 
 
             booking = Booking.objects.create(
-                customer_id=request.user,
+                creator=request.user,
                 package_id=tour_details,
                 booking_date=datetime.date.today(),
-                status="Pending",
+                status="Booked",
                 payment_status="Pending",
                 travel_status="Scheduled",
                 price_at_booking=total_price,

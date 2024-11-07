@@ -13,7 +13,7 @@
                     <h2>Explore <br />Your Travel</h2>
                     <p>{{ header.title }}</p>
                     <div class="form-inner">
-                        <form action="index.html" method="post" class="booking-form clearfix">
+                        <form action="{% url 'tours' %}" method="GET" class="booking-form clearfix">
                             <div class="form-group">
                                 <input type="text" name="service" placeholder="Where to?" required="">
                             </div>
@@ -248,7 +248,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-12 place-block">
                         <div class="place-block-one">
                             <div class="inner-box">
-                                <figure class="image-box"><img src="{{ i.image.url }}" alt="{{ i.package.destination }}"></figure>
+                                <figure class="image-box"><img src="{{ i.image.url }}" alt="destination_image"></figure>
                                 <div class="text">
                                     <h3><a href="{% url 'destination_details' i.id %}">{{ i.package.destination }}</a></h3>
                                 </div>

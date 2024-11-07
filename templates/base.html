@@ -72,12 +72,15 @@
         left: 50%; /* Center horizontally */
         transform: translate(-50%, -50%); /* Offset to center */
         z-index: 1000; /* Ensure it's above other content */
+        pointer-events: auto; /* Allow interaction with the alert */
     }
 
+    /* Remove hover shaking effect */
     #popupMessages:hover {
-        transform: unset !important;
+        transform: translate(-50%, -50%); /* Keep position unchanged */
     }
 </style>
+
 
 {% if messages %}
     <div id="popupMessages">
@@ -417,8 +420,8 @@
                             <p><a href="index.html">{{ footer_content.site_name }}</a> &copy; {{ footer_content.copyright_year }} All Right Reserved</p>
                         </div>
                         <ul class="footer-nav pull-right">
-                            <li><a href="index.html">Terms of Service</a></li>
-                            <li><a href="index.html">Privacy Policy</a></li>
+                            <li><a href="/">Terms of Service</a></li>
+                            <li><a href="/">Privacy Policy</a></li>
                         </ul>
                     </div>
                 </div>

@@ -37,6 +37,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+//document.addEventListener('DOMContentLoaded', function() {
+//    const filterSelects = document.querySelectorAll('.filter-select');
+//
+//    filterSelects.forEach(select => {
+//        select.addEventListener('change', function() {
+//            this.closest('form').submit(); // Submit the form on change
+//        });
+//    });
+//});
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     // Find all nav-headers
