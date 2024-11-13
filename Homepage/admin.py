@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.utils.html import format_html
 from Deals.models import Package
 from datetime import datetime
+from django.utils.html import format_html
+from django.urls import reverse
 
 
 from .models import (AboutSection,
@@ -12,8 +14,79 @@ from .models import (AboutSection,
                      GalleryImage,
                      Gallery,Header)
 
-admin.site.register(Header)
-admin.site.register(Destinationinfo)
+class HeaderAdmin(admin.ModelAdmin):
+    list_display = ('title', 'logo_thumbnail', 'icon_thumbnail', 'header_banner_thumbnail', 'update_link', 'delete_link')
+    search_fields = ('title',)
+
+    def logo_thumbnail(self, obj):
+        if obj.logo:
+            return format_html('<img src="{}" width="80" height="50" />', obj.logo.url)
+        return "No Logo"
+    logo_thumbnail.short_description = 'Logo'
+
+    def icon_thumbnail(self, obj):
+        if obj.icon:
+            return format_html('<img src="{}" width="50" height="50" />', obj.icon.url)
+        return "No Icon"
+    icon_thumbnail.short_description = 'Icon'
+
+    def header_banner_thumbnail(self, obj):
+        if obj.header_banner:
+            return format_html('<img src="{}" width="100" height="50" />', obj.header_banner.url)
+        return "No Banner"
+    header_banner_thumbnail.short_description = 'Header Banner'
+
+    def update_link(self, obj):
+        update_url = reverse('admin:Homepage_header_change', args=[obj.id])
+        return format_html(
+            '<a class="button" href="{}" style="color: white; background-color: green; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Update</a>',
+            update_url
+        )
+
+    update_link.short_description = 'Update'
+
+    def delete_link(self, obj):
+        delete_url = reverse('admin:Homepage_header_delete', args=[obj.id])
+        return format_html(
+            '<a class="button" href="{}" style="color: white; background-color: red; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Delete</a>',
+            delete_url
+        )
+
+    delete_link.short_description = 'Delete'
+
+admin.site.register(Header, HeaderAdmin)
+class DestinationinfoAdmin(admin.ModelAdmin):
+    list_display = ('description', 'banner_image_thumbnail','update_link','delete_link', )
+    search_fields = ('description',)
+
+    def banner_image_thumbnail(self, obj):
+        if obj.banner_image:
+            return format_html('<img src="{}" width="100" height="100" />', obj.banner_image.url)
+        return "No Image"
+    banner_image_thumbnail.short_description = 'Banner Image'
+
+    def update_link(self, obj):
+        update_url = reverse('admin:Homepage_destinationinfo_change',
+                             args=[obj.id])
+        return format_html(
+            '<a class="button" href="{}" style="color: white; background-color: green; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Update</a>',
+            update_url
+        )
+
+    update_link.short_description = 'Update'
+
+    def delete_link(self, obj):
+        delete_url = reverse('admin:Homepage_destinationinfo_delete',
+                             args=[obj.id])
+        return format_html(
+            '<a class="button" href="{}" style="color: white; background-color: red; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Delete</a>',
+            delete_url
+        )
+
+    delete_link.short_description = 'Delete'
+
+
+admin.site.register(Destinationinfo, DestinationinfoAdmin)
 
 
 class FooterGalleryInline(admin.TabularInline):
@@ -29,14 +102,37 @@ class FooterGalleryGroupAdmin(admin.ModelAdmin):
 class AboutSectionAdmin(admin.ModelAdmin):
     list_display = (
         'title',
-        'description',
+        # 'description',
         'image1',
         'image2',
         'list_item_1',
         'list_item_2',
         'list_item_3',
+        'update_link',
+        'delete_link',
     )
     search_fields = ('title', 'description')
+
+    def update_link(self, obj):
+        update_url = reverse('admin:Homepage_aboutsection_change',
+                             args=[obj.id])
+        return format_html(
+            '<a class="button" href="{}" style="color: white; background-color: green; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Update</a>',
+            update_url
+        )
+
+    update_link.short_description = 'Update'
+
+    def delete_link(self, obj):
+        delete_url = reverse('admin:Homepage_aboutsection_delete',
+                             args=[obj.id])
+        return format_html(
+            '<a class="button" href="{}" style="color: white; background-color: red; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Delete</a>',
+            delete_url
+        )
+
+    delete_link.short_description = 'Delete'
+
 admin.site.register(AboutSection, AboutSectionAdmin)
 
 class GalleryImageInline(admin.TabularInline):
@@ -51,7 +147,7 @@ admin.site.register(Gallery, GalleryAdmin)
 
 @admin.register(FooterContent)
 class FooterContentAdmin(admin.ModelAdmin):
-    list_display = ('site_name', 'email', 'phone', 'copyright_year')
+    list_display = ('site_name', 'email', 'phone', 'copyright_year','update_link', 'delete_link')
     search_fields = ('site_name', 'email', 'phone')
     readonly_fields = ('copyright_year',)
     fieldsets = (
@@ -65,6 +161,26 @@ class FooterContentAdmin(admin.ModelAdmin):
             'fields': ('copyright_year',)
         }),
     )
+
+    def update_link(self, obj):
+        update_url = reverse('admin:Homepage_footercontent_change',
+                             args=[obj.id])
+        return format_html(
+            '<a class="button" href="{}" style="color: white; background-color: green; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Update</a>',
+            update_url
+        )
+
+    update_link.short_description = 'Update'
+
+    def delete_link(self, obj):
+        delete_url = reverse('admin:Homepage_footercontent_delete',
+                             args=[obj.id])
+        return format_html(
+            '<a class="button" href="{}" style="color: white; background-color: red; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Delete</a>',
+            delete_url
+        )
+
+    delete_link.short_description = 'Delete'
 
     def save_model(self, request, obj, form, change):
         if not obj.copyright_year:
