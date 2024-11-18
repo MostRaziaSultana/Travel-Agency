@@ -15,7 +15,7 @@ from .models import (AboutSection,
                      Gallery,Header)
 
 class HeaderAdmin(admin.ModelAdmin):
-    list_display = ('title', 'logo_thumbnail', 'icon_thumbnail', 'header_banner_thumbnail', 'update_link', 'delete_link')
+    list_display = ('title', 'logo_thumbnail', 'favicon_thumbnail', 'header_banner_thumbnail', 'update_link', 'delete_link')
     search_fields = ('title',)
 
     def logo_thumbnail(self, obj):
@@ -24,11 +24,11 @@ class HeaderAdmin(admin.ModelAdmin):
         return "No Logo"
     logo_thumbnail.short_description = 'Logo'
 
-    def icon_thumbnail(self, obj):
-        if obj.icon:
-            return format_html('<img src="{}" width="50" height="50" />', obj.icon.url)
-        return "No Icon"
-    icon_thumbnail.short_description = 'Icon'
+    def favicon_thumbnail(self, obj):
+        if obj.favicon:
+            return format_html('<img src="{}" width="50" height="50" />', obj.favicon.url)
+        return "No Favicon"
+    favicon_thumbnail.short_description = 'Favicon'
 
     def header_banner_thumbnail(self, obj):
         if obj.header_banner:
