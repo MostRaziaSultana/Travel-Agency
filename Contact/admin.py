@@ -29,8 +29,9 @@ class ContactUsAdmin(admin.ModelAdmin):
 admin.site.register(ContactUs, ContactUsAdmin)
 
 class UserMessageAdmin(admin.ModelAdmin):
-    list_display = ('id','name', 'email', 'mobile', 'created_at', 'seen', 'delete_link')
+    list_display = ('id','name', 'email', 'mobile', 'created_at', 'seen', 'view_link', 'delete_link')
     search_fields = ('name', 'email', 'mobile')
+    list_per_page = 20
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         obj = self.get_object(request, object_id)
@@ -38,6 +39,23 @@ class UserMessageAdmin(admin.ModelAdmin):
             obj.seen = True
             obj.save()  # Mark as seen
         return super(UserMessageAdmin, self).change_view(request, object_id, form_url, extra_context)
+
+    def view_link(self, obj):
+        view_url = reverse('admin:Contact_usermessage_change', args=[obj.id])
+        return format_html(
+            '<a class="button" href="{}" style="color: white; background-color: blue; padding: 5px 10px; border-radius: 5px; text-decoration: none;">View</a>',
+            view_url
+        )
+
+    view_link.short_description = 'View'
+
+    # def get_readonly_fields(self, request, obj=None):
+    #     """
+    #     Make all fields read-only for the "View" mode.
+    #     """
+    #     if obj:  # When viewing an existing object
+    #         return [field.name for field in self.model._meta.fields]
+    #     return super().get_readonly_fields(request, obj)
 
     def delete_link(self, obj):
         delete_url = reverse('admin:Contact_usermessage_delete', args=[obj.id])
