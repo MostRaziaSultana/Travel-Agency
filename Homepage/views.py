@@ -39,3 +39,5 @@ def destination_details(request, id):
     return render(request, 'Tour/destination_details.html', {'destination_details':destination_details,
                                                              'tour_extra':tour_extra})
 
+
+
