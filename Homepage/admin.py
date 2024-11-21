@@ -12,6 +12,7 @@ from .models import (AboutSection,
                      FooterGallery,
                      FooterGalleryGroup,
                      GalleryImage,
+Banner,
                      Gallery,Header)
 
 class HeaderAdmin(admin.ModelAdmin):
@@ -187,3 +188,37 @@ class FooterContentAdmin(admin.ModelAdmin):
             obj.copyright_year = datetime.now().year
         super().save_model(request, obj, form, change)
 
+
+
+@admin.register(Banner)
+class BannerAdmin(admin.ModelAdmin):
+    list_display = ('id', 'login_banner_preview', 'registration_banner_preview', 'update_link', 'delete_link')
+
+    def login_banner_preview(self, obj):
+        if obj.login_banner:
+            return format_html('<img src="{}" style="width: 100px; height: 60px;" />', obj.login_banner.url)
+        return "No Image"
+
+    def registration_banner_preview(self, obj):
+        if obj.registration_banner:
+            return format_html('<img src="{}" style="width: 100px; height: 60px;" />', obj.registration_banner.url)
+        return "No Image"
+
+    def update_link(self, obj):
+        update_url = reverse(f'admin:{obj._meta.app_label}_{obj._meta.model_name}_change', args=[obj.id])
+        return format_html(
+            '<a class="button" href="{}" style="color: white; background-color: green; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Update</a>',
+            update_url
+        )
+
+    def delete_link(self, obj):
+        delete_url = reverse(f'admin:{obj._meta.app_label}_{obj._meta.model_name}_delete', args=[obj.id])
+        return format_html(
+            '<a class="button" href="{}" style="color: white; background-color: red; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Delete</a>',
+            delete_url
+        )
+
+    update_link.short_description = "Update"
+    delete_link.short_description = "Delete"
+    login_banner_preview.short_description = "Login Banner Preview"
+    registration_banner_preview.short_description = "Registration Banner Preview"
