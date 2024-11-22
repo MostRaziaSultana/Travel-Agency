@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Success {% endblock %}
+{% block body %}
+
+
+        <!-- Page Title -->
+        <section class="page-title centred" style="background-image: url({{ tour_details.bannerimage.url }});">
+            <div class="auto-container">
+                <div class="content-box">
+                    <h1>Booking Process 3</h1>
+                    <p>Discover your next great adventure</p>
+                </div>
+            </div>
+        </section>
+        <!-- End Page Title -->
+
+
+        <!-- booking-section -->
+        <section class="booking-section booking-process-3">
+            <div class="auto-container">
+                <div class="row clearfix">
+                    <div class="col-lg-8 col-md-12 col-sm-12 content-side">
+                        <div class="booking-process-content mr-20">
+                            <ul class="process-label clearfix">
+                                <li><span>1.</span>Personal Info</li>
+                                <li><span>2.</span>Payment Info</li>
+                                <li class="current"><span>3.</span>Confirm</li>
+                            </ul>
+                            <div class="confirm-box">
+                                <h3>Confirmation</h3>
+                                <div class="inner-box centred">
+                                    <div class="icon-box"><i class="icon-Check-4"></i></div>
+                                    <h3>Thanks for your booking!</h3>
+                                    <p>You'll receive a confirmation call shortly </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
+                        <div class="process-sidebar ml-20">
+                            <div class="content-box">
+                                <h3>Tour Summary</h3>
+                                 <figure class="image-box"><img src="{{ tour_details.image.url }}" alt="image"></figure>
+                               <h4>{{ tour_details.location }}</h4>
+                                 <ul class="info clearfix">
+                                    <li><i class="far fa-calendar-alt"></i>From: <span>{{ tour_details.start_date }}</span></li>
+                                    <li><i class="far fa-calendar-alt"></i>To: <span>{{ tour_details.end_date }}</span></li>
+                                    <li><i class="far fa-user-alt"></i>Guests: <span>{{ booking.adult }} Adults, {{ booking.children }} Child</span></li>
+                                </ul>
+                                <h4>Total: tk <span id="totalPrice">{{ tour_details.price }}</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- booking-section end -->
+
+
+{% endblock %}
