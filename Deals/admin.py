@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Package, Booking,Tour_page,Destination,PaymentInfo
+from .models import Package, Booking,Tour_page,Destination,PaymentInfo,PaymentDescription
 from django.db.models import Sum, Count, F, Avg
 from datetime import datetime
 from django.urls import reverse
@@ -61,44 +61,109 @@ class PackageAdmin(admin.ModelAdmin):
 
     delete_link.short_description = 'Delete'
 
-class PaymentInfoInline(admin.TabularInline):
-    model = PaymentInfo
-    extra = 0  # No additional empty rows
-    readonly_fields = ['payment_type', 'account_no', 'transaction_id', 'amount', 'payment_date']
-    can_delete = False  # Disable delete option
-    verbose_name = "Payment Info"
-    verbose_name_plural = "Payment Info"
 
-    def has_add_permission(self, request, obj=None):
-        """
-        Prevent adding new PaymentInfo rows in the inline.
-        """
-        return False
 
-    def has_delete_permission(self, request, obj=None):
-        """
-        Prevent deleting PaymentInfo rows in the inline.
-        """
-        return False
-
-class BookingAdmin(admin.ModelAdmin):
-    list_display = ('id', 'creator', 'package_id', 'booking_date', 'status', 'payment_status', 'travel_status', 'price_at_booking', 'update_link', 'delete_link')
-    list_filter = ('status', 'payment_status', 'travel_status', 'booking_date')
-    search_fields = ('first_name', 'last_name', 'creator__username', 'package_id__destination')
-    ordering = ('-booking_date',)  # Order by booking date descending
-    inlines = [PaymentInfoInline]
+class PaymentInfoAdmin(admin.ModelAdmin):
+    list_display = (
+        'id_with_tag',
+        'payment_type',
+        'payment_status',
+        'transaction_id',
+        'amount',
+        'payment_date',
+        'get_user',
+        'seen',
+        'update_link',
+        'delete_link',
+    )
+    list_filter = ('payment_type', 'payment_date')
+    search_fields = ('transaction_id', 'booking__creator__username', 'booking__creator__email')
     list_per_page = 20
 
-    def display_payment_info(self, obj):
+    def id_with_tag(self, obj):
         """
-        Display a summary of payment info for the booking.
+        Display the ID with a "New" tag if the PaymentInfo is unseen.
         """
-        payments = obj.payments.all()  # Access related PaymentInfo objects via related_name
-        if not payments:
-            return "No payments"
-        return ', '.join([f"{payment.payment_type} ({payment.amount})" for payment in payments])
+        if not obj.seen:
+            return format_html(
+                '{} <span style="color: white; background-color: #385a7f; padding: 2px 5px; border-radius: 3px; font-size: 0.9em;">New</span>',
+                obj.id
+            )
+        return obj.id
 
-    display_payment_info.short_description = 'Payment Info'
+    id_with_tag.short_description = "ID"
+
+    def get_user(self, obj):
+        """Display the user (creator) from the associated booking."""
+        return obj.booking.creator
+
+    get_user.short_description = 'User'
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        obj = self.get_object(request, object_id)
+        if obj and not obj.seen:
+            obj.seen = True
+            obj.save()
+        return super(PaymentInfoAdmin, self).change_view(request, object_id, form_url, extra_context)
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        obj = self.get_object(request, object_id)
+        if obj and not obj.seen:
+            obj.seen = True
+            obj.save()  # Mark as seen
+        return super(PaymentInfoAdmin, self).change_view(request, object_id, form_url, extra_context)
+
+    def update_link(self, obj):
+        update_url = reverse('admin:Deals_paymentinfo_change', args=[obj.id])
+        return format_html(
+            '<a class="button" href="{}" style="color: white; background-color: green; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Update</a>',
+            update_url
+        )
+
+    update_link.short_description = 'Update'
+
+    def delete_link(self, obj):
+        delete_url = reverse('admin:Deals_paymentinfo_delete', args=[obj.id])
+        return format_html(
+            '<a class="button" href="{}" style="color: white; background-color: red; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Delete</a>',
+            delete_url
+        )
+
+    delete_link.short_description = 'Delete'
+
+
+# Register the PaymentInfo model
+admin.site.register(PaymentInfo, PaymentInfoAdmin)
+
+
+
+
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ( 'id_with_tag', 'creator', 'package_id', 'booking_date', 'status', 'travel_status', 'price_at_booking','seen', 'update_link', 'delete_link')
+    list_filter = ('status','travel_status', 'booking_date')
+    search_fields = ('first_name', 'last_name', 'creator__username', 'package_id__destination')
+    ordering = ('-booking_date',)  # Order by booking date descending
+    list_per_page = 20
+
+    def id_with_tag(self, obj):
+        """
+        Display the ID with a "New" tag if the Booking is unseen.
+        """
+        if not obj.seen:
+            return format_html(
+                '{} <span style="color: white; background-color: #385a7f; padding: 2px 5px; border-radius: 3px; font-size: 0.9em;">New</span>',
+                obj.id
+            )
+        return obj.id
+
+    id_with_tag.short_description = "ID"
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        obj = self.get_object(request, object_id)
+        if obj and not obj.seen:
+            obj.seen = True
+            obj.save()
+        return super(BookingAdmin, self).change_view(request, object_id, form_url, extra_context)
 
     def save_model(self, request, obj, form, change):
         if not obj.creator:
@@ -205,5 +270,11 @@ class DestinationAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Destination, DestinationAdmin)
+
+
+@admin.register(PaymentDescription)
+class PaymentDetailsAdmin(admin.ModelAdmin):
+    list_display = ('id',)
+    search_fields = ('payment_description',)
 
 
