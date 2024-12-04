@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 import datetime
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -27,7 +28,7 @@ def tours(request):
     if search_query:
         tours = Package.objects.filter(Q(destination__icontains=search_query))
 
-    paginator = Paginator(tours, 2)
+    paginator = Paginator(tours, 3)
     page_number = request.GET.get('page', 1)
     tours = paginator.get_page(page_number)
 
@@ -51,54 +52,99 @@ def tour_details(request, id):
                                                        'tour_extra':tour_extra})
 
 
+@csrf_exempt
 def bookings(request, id):
     tour_details = get_object_or_404(Package, id=id)
 
     if request.method == "POST":
-        first_name = request.POST.get('fname')
-        last_name = request.POST.get('lname')
-        address_1 = request.POST.get('address1')
-        address_2 = request.POST.get('address2')
-        city = request.POST.get('city')
-        zip_code = request.POST.get('zip')
-        adult = int(request.POST.get('adults', 1))
-        children = int(request.POST.get('children', 0))
-        message = request.POST.get('message')
+        # Determine which form is being submitted
+        if 'full_name' in request.POST:  # Booking form submitted
+            full_name = request.POST.get('full_name')
+            phone = request.POST.get('phone')
+            address = request.POST.get('address')
+            email = request.POST.get('email')
+            adult = int(request.POST.get('adults', 1))
+            children = int(request.POST.get('children', 0))
+            message = request.POST.get('message')
 
-        # Calculate total number of guests
-        total_guests = adult + children
+            total_guests = adult + children
 
+            if tour_details.available_seats >= total_guests:
+                total_price = (adult * tour_details.price) + (children * tour_details.child_price)
 
-        if tour_details.available_seats >= total_guests:
+                booking = Booking.objects.create(
+                    creator=request.user,
+                    package_id=tour_details,
+                    booking_date=datetime.date.today(),
+                    status="Booked",
+                    travel_status="Scheduled",
+                    price_at_booking=total_price,
+                    full_name=full_name,
+                    phone=phone,
+                    address=address,
+                    email=email,
+                    adult=adult,
+                    children=children,
+                    message=message,
+                )
 
-            total_price = (adult * tour_details.price) + (children * tour_details.child_price)
+                tour_details.available_seats -= total_guests
+                tour_details.save()
 
+                messages.success(request, "Booking successful! Proceed to payment.")
+                return redirect('payment', booking_id=booking.id)  # Redirect to payment page
 
-            booking = Booking.objects.create(
-                creator=request.user,
-                package_id=tour_details,
-                booking_date=datetime.date.today(),
-                status="Booked",
-                payment_status="Pending",
-                travel_status="Scheduled",
-                price_at_booking=total_price,
-                first_name=first_name,
-                last_name=last_name,
-                address_1=address_1,
-                address_2=address_2,
-                city=city,
-                zip_code=zip_code,
-                adult=adult,
-                children=children,
-                message=message,
-            )
+            else:
+                messages.warning(request, "Not enough available seats.")
+                return redirect(request.META.get('HTTP_REFERER', '/'))
 
-            tour_details.available_seats -= total_guests
-            tour_details.save()
-
-        else:
-
-            messages.warning(request, "Not enough available seats.")
-            return redirect(request.META['HTTP_REFERER'])
 
     return render(request, 'Booking/booking.html', {'tour_details': tour_details})
+
+
+@csrf_exempt
+def payment(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    tour_details = booking.package_id
+    payment_description = PaymentDescription.objects.first()
+
+    if request.method == "POST":
+        # Payment form submitted
+        payment_type = request.POST.get('payment_type')
+        account_no = request.POST.get('account_no')
+        transaction_id = request.POST.get('transaction')
+        amount = request.POST.get('amount')
+        payment_date = request.POST.get('payment_date')
+
+        # Create payment info record
+        PaymentInfo.objects.create(
+            booking=booking,
+            payment_type=payment_type,
+            account_no=account_no,
+            transaction_id=transaction_id,
+            amount=amount,
+            payment_date=payment_date if payment_date else None
+        )
+
+        # Update booking payment status
+        booking.payment_status = "Pending"
+        booking.save()
+
+        messages.success(request, "Payment successful!")
+        return redirect('success', booking_id=booking.id)
+
+    return render(request, 'Booking/payment.html', {
+        'booking': booking,
+        'tour_details': tour_details,
+        'payment_description':payment_description,
+    })
+
+
+
+def success(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    tour_details = booking.package_id
+    return render(request, 'Booking/success.html', {
+        'booking': booking,
+        'tour_details': tour_details,
+    })

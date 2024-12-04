@@ -20,6 +20,8 @@ urlpatterns = [
     path('tour_details/<int:id>/', tour_details, name='tour_details'),
     path('bookings/<int:id>/', bookings, name='bookings'),
     path('destination_details/<int:id>/', destination_details, name='destination_details'),
+    path('bookings/payment/<int:booking_id>/', payment, name='payment'),
+    path('success/<int:booking_id>/', success, name='success'),
 
     path('registration/', registration, name='registration'),
     path('login/', login, name='login'),
@@ -36,7 +38,7 @@ if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# Change the admin site titles
-admin.site.site_header = _("Shoily")
-admin.site.index_title = _("Shoily")
-admin.site.site_title = _("Shoily")
+# # Change the admin site titles
+# admin.site.site_header = _("Shoily")
+# admin.site.index_title = _("Shoily")
+# admin.site.site_title = _("Shoily")

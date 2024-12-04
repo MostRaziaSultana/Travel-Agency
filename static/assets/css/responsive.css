@@ -367,7 +367,7 @@
   }
 
   .banner-section .content-box h2{
-    font-size: 40px;
+    font-size: 30px;
     line-height: 50px;
   }
 
@@ -1002,6 +1002,7 @@
   .page-title .content-box h1{
     font-size: 40px;
     line-height: 50px;
+    padding-top: 20px!important;
   }
 
   .tours-page-section .item-shorting .right-column{

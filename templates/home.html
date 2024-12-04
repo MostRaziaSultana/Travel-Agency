@@ -8,30 +8,21 @@
         <!-- banner-section -->
         <section class="banner-section" style="background-image: url({{ header.header_banner.url }});">
             <div class="pattern-layer" style="background-image: url({% static 'assets/images/shape/shape-1.png' %});"></div>
-            <div class="auto-container">
+            <div class="auto-container" style="
+                margin-top: -75px;
+            ">
                 <div class="content-box">
                     <h2>Explore <br />Your Travel</h2>
                     <p>{{ header.title }}</p>
-                    <div class="form-inner">
-                        <form action="{% url 'tours' %}" method="GET" class="booking-form clearfix">
-                            <div class="form-group">
-                                <input type="text" name="service" placeholder="Where to?" required="">
+                    <div class="form-inner container" style="max-width: 50rem;">
+                        <form action="{% url 'tours' %}" method="GET" class="booking-form clearfix d-flex">
+                            <div class="form-group" style="flex-grow: 3;">
+                                <input type="text" name="service" placeholder="Where to?" required="" style="max-width: 20rem;">
                             </div>
-                            <div class="form-group input-date">
+                            <div class="form-group input-date" style="flex-grow: 1;">
                                 <i class="far fa-angle-down"></i>
-                                <input type="text" name="date" placeholder="When?" id="datepicker">
+                                <input  type="text" name="date" placeholder="When?" id="datepicker" style="max-width: 14.3rem;">
                             </div>
-<!--                            <div class="form-group">-->
-<!--                                <div class="select-box">-->
-<!--                                    <select class="wide">-->
-<!--                                       <option data-display="Travel Type">Travel Type</option>-->
-<!--                                       <option value="1">Adventure Tours</option>-->
-<!--                                       <option value="2">City Tours</option>-->
-<!--                                       <option value="3">Couple Tours</option>-->
-<!--                                       <option value="4">Group Tours</option>-->
-<!--                                    </select>-->
-<!--                                </div>-->
-<!--                            </div>-->
                             <div class="message-btn">
                                 <button type="submit" class="theme-btn"><i class="far fa-search"></i>Find Now</button>
                             </div>
@@ -207,7 +198,8 @@
                 <div class="three-item-carousel owl-carousel owl-theme owl-nav-none">
                     {% for i in tours %}
                        {% if i.hot_deal  %}
-                    <div class="offer-block-one">
+                    <div class="offer-block-one" onclick="window.location='{% url 'tour_details' i.id %}'">
+
                         <div class="inner-box">
                             <figure class="image-box"><img src="{{ i.image.url }}" alt="images"></figure>
                             <div class="content-box">
@@ -216,6 +208,7 @@
                                 <h4>Tk {{ i.price }}</h4>
                             </div>
                         </div>
+
                     </div>
                      {% endif %}
                      {% endfor %}
@@ -247,12 +240,15 @@
                        {% if i.show_on_homepage  %}
                     <div class="col-lg-4 col-md-6 col-sm-12 place-block">
                         <div class="place-block-one">
+                            <a href="{% url 'destination_details' i.id %}">
                             <div class="inner-box">
-                                <figure class="image-box"><img src="{{ i.image.url }}" alt="destination_image"></figure>
+                                <figure class="image-box"><img src="{{ i.image.url }}" alt="destination_image">
+                                </figure>
                                 <div class="text">
                                     <h3><a href="{% url 'destination_details' i.id %}">{{ i.package.destination }}</a></h3>
                                 </div>
                             </div>
+                                </a>
                         </div>
                     </div>
                       {% endif %}

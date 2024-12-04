@@ -1,6 +1,6 @@
-from .models import FooterContent,FooterGallery,Header
+from .models import FooterContent,FooterGallery,Header,Banner
 from Contact.models import ContactUs,UserMessage
-from Deals.models import Booking, Package,Destination,Tour_page
+from Deals.models import Booking, Package,Destination,Tour_page,PaymentInfo
 from django.contrib.auth.models import User
 from django.db.models import Count, Sum
 from django.utils.timezone import now
@@ -24,6 +24,12 @@ def contact_us(request):
         'contact_us': ContactUs.objects.first()
     }
 
+def banner(request):
+    return {
+        'banner': Banner.objects.first()
+    }
+
+
 def last_bookings(request):
     bookings = Booking.objects.order_by('-created_at')[:10]
 
@@ -33,6 +39,12 @@ def last_bookings(request):
     total_destinations = Destination.objects.count()
     total_users = User.objects.count()
     total_unseen_messages = UserMessage.objects.filter(seen=False).count()
+    total_paid_count = PaymentInfo.objects.filter(payment_status='Paid').count()
+    total_payments = PaymentInfo.objects.count()
+    total_refunded_count = PaymentInfo.objects.filter(payment_status='Refunded').count()
+
+    total_unseen_payments = PaymentInfo.objects.filter(seen=False).count()
+    total_unseen_bookings = Booking.objects.filter(seen=False).count()
 
 
     return {
@@ -43,60 +55,20 @@ def last_bookings(request):
         'total_destinations': total_destinations,
         'total_users': total_users,
         'total_unseen_messages': total_unseen_messages,
+        'total_paid_count': total_paid_count,
+        'total_payments':total_payments,
+        'total_refunded_count':total_refunded_count,
+        'total_unseen_payments':total_unseen_payments,
+        'total_unseen_bookings':total_unseen_bookings,
     }
 
 
-def get_visualization_data():
+def get_visualization_data(request):
     # 1. Number of Bookings by Package
     bookings_by_package = (
         Booking.objects.values('package_id__destination')  # Aggregate by destination name
         .annotate(count=Count('id'))
         .order_by('package_id__destination')
     )
-    bookings_by_package_list = [(entry['package_id__destination'], entry['count']) for entry in bookings_by_package]
-
-    # 2. Booking Status Counts
-    booking_status_counts = (
-        Booking.objects.values('status')
-        .annotate(count=Count('id'))
-        .order_by('status')
-    )
-    booking_status_counts_list = [(entry['status'], entry['count']) for entry in booking_status_counts]
-
-    # 3. Travel Status by Package
-    travel_status_by_package = (
-        Booking.objects.values('package_id__destination', 'travel_status')
-        .annotate(count=Count('id'))
-        .order_by('package_id__destination', 'travel_status')
-    )
-    travel_status_by_package_list = [
-        (entry['package_id__destination'], entry['travel_status'], entry['count'])
-        for entry in travel_status_by_package
-    ]
-
-    # 4. Revenue by Package
-    revenue_by_package = (
-        Booking.objects.values('package_id__destination')
-        .annotate(total_revenue=Sum('price_at_booking'))
-        .order_by('package_id__destination')
-    )
-    revenue_by_package_list = [
-        (entry['package_id__destination'], entry['total_revenue']) for entry in revenue_by_package
-    ]
-
-    # 5. Discounted Destinations (Tour_page)
-    discounted_destinations = (
-        Tour_page.objects.values('discounted_destination_name', 'discount')
-        .order_by('discounted_destination_name')
-    )
-    discounted_destinations_list = [
-        (entry['discounted_destination_name'], entry['discount']) for entry in discounted_destinations
-    ]
-
-    return {
-        "bookings_by_package": bookings_by_package_list,
-        "booking_status_counts": booking_status_counts_list,
-        "travel_status_by_package": travel_status_by_package_list,
-        "revenue_by_package": revenue_by_package_list,
-        "discounted_destinations": discounted_destinations_list,
-    }
+    bookings_by_package_list = [[entry['package_id__destination'], entry['count']] for entry in bookings_by_package]
+    return{"bookings_by_package": bookings_by_package_list}

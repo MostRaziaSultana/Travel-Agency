@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from .models import *
 from Deals.models import Package,Tour_page,Destination
+from django.core.paginator import Paginator
+
 # Create your views here.
 def home(request):
 
@@ -21,8 +23,19 @@ def home(request):
 
 def gallery(request):
     banner_image = Gallery.objects.first()
-    images = Gallery.objects.first()
-    return render(request, 'gallery.html', {'banner_image': banner_image, 'gallery': images})
+    if banner_image:
+        all_images = banner_image.images.all()
+    else:
+        all_images = []
+    paginator = Paginator(all_images, 6)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'gallery.html', {
+        'banner_image': banner_image,
+        'page_obj': page_obj
+    })
 
 
 def destinations(request):

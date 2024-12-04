@@ -3,7 +3,7 @@ from ckeditor.fields import RichTextField
 
 class Header(models.Model):
     logo = models.ImageField(upload_to='header/logo/', blank=True, null=True, default='default_images/default_logo.png')
-    icon = models.ImageField(upload_to='header/icons/', blank=True, null=True,
+    favicon = models.ImageField(upload_to='header/icons/', blank=True, null=True,
                              default='default_images/default_icon.png')
     header_banner = models.ImageField(upload_to='header/banner/', blank=True, null=True,
                                       default='default_images/default_banner.jpg')
@@ -100,3 +100,19 @@ class GalleryImage(models.Model):
 
     def __str__(self):
         return f'Image {self.id} of Gallery {self.gallery.id}'
+
+
+
+class Banner(models.Model):
+
+    login_banner = models.ImageField(upload_to='banners/login/', blank=True, null=True,
+                                     verbose_name="Login Page Banner")
+    registration_banner = models.ImageField(upload_to='banners/registration/', blank=True, null=True,
+                                            verbose_name="Registration Page Banner")
+
+    def __str__(self):
+        return f"Banner ID {self.id}"
+
+
+
+

@@ -16,6 +16,8 @@ class Package(models.Model):
     package_code = models.CharField(max_length=50, unique=True, default=generate_package_code)
     location = models.CharField(max_length=255)
     short_description = RichTextField()
+    tour_plan_description = RichTextField(blank=True, null=True,
+                                          help_text="Detailed description of the tour plan")
     destination = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2, help_text="Price per adult")
     child_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, help_text="Price per child")
@@ -67,12 +69,6 @@ class Booking(models.Model):
         ('Completed', 'Completed'),
     ]
 
-    PAYMENT_STATUS_CHOICES = [
-        ('Pending', 'Pending'),
-        ('Paid', 'Paid'),
-        ('Refunded', 'Refunded'),
-    ]
-
     TRAVEL_STATUS_CHOICES = [
         ('Scheduled', 'Scheduled'),
         ('Ongoing', 'Ongoing'),
@@ -83,24 +79,49 @@ class Booking(models.Model):
     package_id = models.ForeignKey('Package', on_delete=models.CASCADE)
     booking_date = models.DateField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
-    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES)
     travel_status = models.CharField(max_length=20, choices=TRAVEL_STATUS_CHOICES)
     price_at_booking = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    first_name = models.CharField(max_length=50,null=True)
-    last_name = models.CharField(max_length=50,null=True)
-    address_1 = models.CharField(max_length=255,null=True)
-    address_2 = models.CharField(max_length=255, blank=True, null=True)
-    city = models.CharField(max_length=100,null=True)
-    zip_code = models.CharField(max_length=20,null=True)
+    full_name = models.CharField(max_length=50,null=True)
+    phone = models.CharField(max_length=15, null=True)
+    address = models.CharField(max_length=255,null=True)
+    email = models.EmailField(null=True)
     adult = models.PositiveIntegerField(default=1)
     children =  models.PositiveIntegerField(default=0, blank=True, null=True)
     message = models.TextField(blank=True, null=True)
+    seen = models.BooleanField(default=False)
 
 
     def __str__(self):
         return f"Booking {self.id} for {self.creator} - {self.package_id.destination}"
+
+
+class PaymentInfo(models.Model):
+    PAYMENT_TYPE_CHOICES = [
+        ('bkash', 'Bkash'),
+        ('nagad', 'Nagad'),
+        ('rocket', 'Rocket'),
+    ]
+    PAYMENT_STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Paid', 'Paid'),
+        ('Refunded', 'Refunded'),
+    ]
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name="payments")
+    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES,null=True)
+    payment_type = models.CharField(max_length=20,choices=PAYMENT_TYPE_CHOICES)
+    account_no = models.CharField(max_length=20)
+    transaction_id = models.CharField(max_length=50)
+    amount = models.DecimalField(max_digits=10,decimal_places=2)
+    payment_date = models.DateField(null=True,blank=True)
+    seen = models.BooleanField(default=False)
+    def __str__(self):
+        return f"{self.payment_type} - {self.transaction_id}"
+
+    class Meta:
+        verbose_name = "Payment Info"
+        verbose_name_plural = "Payment Info"
 
 
 class Tour_page(models.Model):
@@ -140,3 +161,14 @@ class Destination(models.Model):
 
     def __str__(self):
         return self.package.destination
+
+
+class PaymentDescription(models.Model):
+    payment_description = RichTextField()
+
+    def __str__(self):
+        return f"Payment Details ID {self.id}"
+
+    class Meta:
+        verbose_name = "Payment Description"
+        verbose_name_plural = "Payment Description"

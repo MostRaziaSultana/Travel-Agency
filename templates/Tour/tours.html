@@ -4,38 +4,27 @@
 {% block body %}
 
 
-  <!-- Page Title -->
+        <!-- Page Title -->
         <section class="page-title style-two centred" style="background-image: url({{ tour_extra.banner_image.url  }});">
             <div class="auto-container">
                 <div class="content-box">
                     <h1>Tours </h1>
                     <p>Discover your next great adventure</p>
                 </div>
-                <div class="form-inner">
-                    <form action="{% url 'tours' %}" method="GET" class="booking-form clearfix">
-                        <div class="form-group">
-                            <input type="text" name="service" placeholder="Where to?" required="">
-                        </div>
-                        <div class="form-group input-date">
-                            <i class="far fa-angle-down"></i>
-                            <input type="text" name="date" placeholder="When?" id="datepicker">
-                        </div>
-<!--                        <div class="form-group">-->
-<!--                            <div class="select-box">-->
-<!--                                <select class="wide" name="travel_type">-->
-<!--                                   <option data-display="Travel Type">Travel Type</option>-->
-<!--                                   <option value="1">Adventure Tours</option>-->
-<!--                                   <option value="2">City Tours</option>-->
-<!--                                   <option value="3">Couple Tours</option>-->
-<!--                                   <option value="4">Group Tours</option>-->
-<!--                                </select>-->
+<!--                <div class="form-inner">-->
+<!--                     <form action="{% url 'tours' %}" method="GET" class="booking-form clearfix d-flex">-->
+<!--                            <div class="form-group" style="flex-grow: 3;">-->
+<!--                                <input type="text" name="service" placeholder="Where to?" required="" style="max-width: 20rem;">-->
 <!--                            </div>-->
-<!--                        </div>-->
-                        <div class="message-btn">
-                            <button type="submit" class="theme-btn"><i class="far fa-search"></i>Find Now</button>
-                        </div>
-                    </form>
-                </div>
+<!--                            <div class="form-group input-date" style="flex-grow: 1;">-->
+<!--                                <i class="far fa-angle-down"></i>-->
+<!--                                <input  type="text" name="date" placeholder="When?" id="datepicker" style="max-width: 14.3rem;">-->
+<!--                            </div>-->
+<!--                            <div class="message-btn">-->
+<!--                                <button type="submit" class="theme-btn"><i class="far fa-search"></i>Find Now</button>-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                </div>-->
             </div>
         </section>
         <!-- End Page Title -->
@@ -45,7 +34,7 @@
         <section class="tours-page-section">
             <div class="auto-container">
                 <div class="row clearfix">
-                    <div class="col-lg-8 col-md-12 col-sm-12 content-side">
+                    <div class="col-lg-12 col-md-12 col-sm-12 content-side">
                         <div class="item-shorting clearfix">
                             <div class="left-column pull-left">
                                 <h3>Showing {{ results_start }}-{{ results_end }} of {{ total_results }} Results</h3>
@@ -72,7 +61,7 @@
                             <div id="grid-view" class="tour-grid-content">
                                 <div class="row clearfix">
                                     {% for i in tours %}
-                                    <div class="col-lg-6 col-md-6 col-sm-12 tour-block">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 tour-block">
                                         <div class="tour-block-one">
                                             <div class="inner-box">
                                                 <figure class="image-box">

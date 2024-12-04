@@ -30,3 +30,4 @@ class UserMessage(models.Model):
         verbose_name_plural = "Messages"
     def __str__(self):
         return f"{self.name} - {self.subject}"
+

@@ -38,9 +38,12 @@
     <link rel="stylesheet" href="{% static jazzmin_settings.custom_css %}">
     {% endif %}
 
-    <!-- favicons -->
-    <link rel="shortcut icon" href="{% static jazzmin_settings.site_icon %}" type="image/png">
-    <link rel="icon" href="{% static jazzmin_settings.site_icon %}" sizes="32x32" type="image/png">
+<!-- Favicon -->
+<link rel="icon" href="{{ header.favicon.url }}" type="image/x-icon">
+<!-- Fallback to Jazzmin's favicon -->
+<link rel="shortcut icon" href="{% static jazzmin_settings.site_icon %}" type="image/png">
+<link rel="icon" href="{% static jazzmin_settings.site_icon %}" sizes="32x32" type="image/png">
+
 
     {% if jazzmin_settings.use_google_fonts_cdn %}
     <!-- Google Font: Source Sans Pro -->
@@ -62,6 +65,11 @@
                     <li class="nav-item">
                         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                     </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="http://{{ request.get_host }}/" target="_blank" role="button" title="Browse Frontend">
+                        <i class="fas fa-globe"></i>
+                    </a>
+                </li>
                 {% else %}
                     <li class="nav-item">
                         <a href="{% url 'admin:index' %}" class="brand-link">
@@ -184,11 +192,13 @@
             {% get_side_menu as side_menu_list %}
 
             <aside class="main-sidebar elevation-4 {{ jazzmin_ui.sidebar_classes }}" id="jazzy-sidebar">
-                <a href="{% url 'admin:index' %}" class="brand-link {{ jazzmin_ui.brand_classes }}" id="jazzy-logo">
-                    <img src="{% static jazzmin_settings.site_logo %}" alt="{{ jazzmin_settings.site_header }} Logo" class="{{ jazzmin_settings.site_logo_classes }} brand-image elevation-3" style="opacity: .8">
-                    <span class="brand-text font-weight-light">{{ jazzmin_settings.site_brand }}</span>
+                <a href="{% url 'admin:index' %}" class="brand-link" id="jazzy-logo">
+                    {% if header.logo %}
+                        <img src="{{ header.logo.url }}" alt="header_logo" title="header-logo" style="height: 30px; width: 160px; padding-left: 20px;">
+                    {% else %}
+                        <img src="{% static jazzmin_settings.site_logo %}" alt="{{ jazzmin_settings.site_header }} Logo" style="height: 30px; width: 160px;">
+                    {% endif %}
                 </a>
-
                 <div class="sidebar">
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                         <div class="image">
@@ -270,7 +280,7 @@
                                 <a href="{% url 'admin:Deals_booking_changelist' %}"  class="nav-link">
                                     <p>{% trans 'Bookings' %}</p>
                                     {% if total_unseen_bookings > 0 %}
-                                        <span class="badge" style="margin-left: 130px; font-size: 11px; padding: 0.5em 0.8em; border-radius: 50%;background-color: #038ece; color: white;">{{ total_unseen_bookings }}</span>
+                                        <span class="badge" style="margin-left: 134px; font-size: 11px; padding: 0.5em 0.8em; border-radius: 50%;background-color: #038ece; color: white;">{{ total_unseen_bookings }}</span>
                                     {% endif %}
                                 </a>
                             </li>
@@ -356,11 +366,11 @@
 {% block footer %}
     {% if not is_popup %}
         <footer class="main-footer {{ jazzmin_ui.footer_classes }}">
-            <div class="float-right d-none d-sm-inline">
-                <b>{% trans 'Jazzmin version' %}</b> {% get_jazzmin_version %}
-            </div>
+<!--            <div class="float-right d-none d-sm-inline">-->
+<!--                <b>{% trans 'Jazzmin version' %}</b> {% get_jazzmin_version %}-->
+<!--            </div>-->
             {% autoescape off %}
-                <strong>{% trans 'Copyright' %} &copy; {% now 'Y' %} {{ jazzmin_settings.copyright }}.</strong> {% trans 'All rights reserved.' %}
+                <strong>{% trans 'Copyright' %} &copy; {% now 'Y' %} {{ jazzmin_settings.copyright }} - {{ footer_content.site_name }}.</strong> {% trans 'All rights reserved.' %}
             {% endautoescape %}
         </footer>
         {% if jazzmin_settings.show_ui_builder %}

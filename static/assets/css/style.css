@@ -54,8 +54,10 @@
 * {
   margin:0px;
   padding:0px;
-  border:none;
+  border:none
   outline:none;
+  cursor: default !important;
+  user-select: none !important;
 }
 
 
@@ -101,7 +103,7 @@ body {
 .auto-container{
   position:static;
   max-width:1200px;
-  padding:0px 15px;
+  padding:10px 15px;
   margin:0 auto;
 }
 
@@ -198,7 +200,7 @@ h1,h2,h3,h4,h5,h6{
   font-size: 14px;
   background: #fff;
   padding: 5px 20px;
-  cursor: pointer;
+
   right: 0;
   top: 0;
   font-weight: 600;
@@ -272,7 +274,7 @@ h1,h2,h3,h4,h5,h6{
 
 .handle-preloader .animation-preloader .spinner{
   border: 3px solid #ffffff;
-  border-top-color: rgba(255, 255, 255, 0.5); 
+  border-top-color: rgba(255, 255, 255, 0.5);
 }
 
 /* AnimaciÃ³n del preloader */
@@ -520,7 +522,7 @@ img {
   z-index: 99;
   color: #ffffff;
   text-align: center;
-  cursor: pointer;
+
   transition: 1s ease;
 }
 
@@ -566,7 +568,7 @@ img {
 
 
 
-/*** 
+/***
 
 ====================================================================
                         Home-Page-One
@@ -605,10 +607,10 @@ img {
   -ms-transition:all 500ms ease;
   -o-transition:all 500ms ease;
 }
-
 .fixed-header .sticky-header{
   z-index:999;
   opacity:1;
+
   visibility:visible;
   -ms-animation-name: fadeInDown;
   -moz-animation-name: fadeInDown;
@@ -644,6 +646,22 @@ img {
   right: 0px;
   width: 100%;
   background: transparent;
+  z-index: 1000;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.main-header.fixed-header{
+  background: #061a3a !important;
+  position: fixed !important;
+
+}
+
+/* Ensure header is static for screens smaller than 1200px */
+@media screen and (max-width: 1200px) {
+    .main-header {
+        position: static; /* Header becomes static */
+        background-color: transparent; /* Still transparent */
+    }
 }
 
 .main-header .outer-box {
@@ -656,7 +674,6 @@ img {
 
 .main-header .logo-box{
   position: relative;
-  padding: 36px 0px;
 }
 
 .main-header .logo-box .logo{
@@ -678,7 +695,7 @@ img {
   position: relative;
   font-size: 24px;
   color: #061a3a;
-  cursor: pointer;
+
   display: inline-block;
   background: #ffffff;
   width: 56px;
@@ -692,8 +709,8 @@ img {
 
 .main-header .menu-right-content .user-link a:hover{
   color: #fff;
-}
 
+}
 
 /** search box btn **/
 
@@ -705,7 +722,7 @@ img {
   position: relative;
   font-size: 18px;
   color: #061a3a;
-  cursor: pointer;
+
   display: inline-block;
   background: #ffffff;
   width: 56px;
@@ -784,7 +801,7 @@ img {
   background: #f3f5fe;
   font-size: 14px;
   border-radius: 0px 3px 3px 0px;
-  cursor: pointer;
+
 }
 
 .dropdown-toggle::after {
@@ -811,7 +828,6 @@ img {
   position:inherit;
   float:left;
   z-index:2;
-  padding:35px 0px;
   margin: 0px 20px;
   -webkit-transition:all 300ms ease;
   -moz-transition:all 300ms ease;
@@ -848,7 +864,7 @@ img {
 
 .main-menu .navigation > li.current > a,
 .main-menu .navigation > li:hover > a{
-  
+
 }
 
 .main-menu .navigation > li > ul,
@@ -879,7 +895,7 @@ img {
 
 .main-menu .navigation > li > ul.from-right{
   left:auto;
-  right:0px;  
+  right:0px;
 }
 
 .main-menu .navigation > li > ul > li{
@@ -942,7 +958,7 @@ img {
 }
 
 .main-menu .navigation > li > ul > li:last-child{
-  border-bottom:none; 
+  border-bottom:none;
 }
 
 .main-menu .navigation > li > ul > li > a,
@@ -985,7 +1001,7 @@ img {
   font-size:16px;
   font-weight:800;
   text-align:center;
-  z-index:5;  
+  z-index:5;
 }
 
 .main-menu .navigation > li > ul > li > ul{
@@ -1013,7 +1029,7 @@ img {
 
 .main-menu .navigation > li > ul > li > ul.from-right{
   left:auto;
-  right:0px;  
+  right:0px;
 }
 
 .main-menu .navigation > li > ul > li > ul > li{
@@ -1062,11 +1078,11 @@ img {
 }
 
 .main-menu .navigation > li > ul > li > ul > li:last-child{
-  border-bottom:none; 
+  border-bottom:none;
 }
 
 .main-menu .navigation > li > ul > li > ul > li:last-child{
-  border-bottom:none; 
+  border-bottom:none;
 }
 
 .main-menu .navigation > li > ul > li > ul > li > a{
@@ -1092,7 +1108,7 @@ img {
 }
 
 .main-menu .navigation > li > ul > li > ul > li > a:hover{
-  
+
 }
 
 .main-menu .navigation > li > ul > li > ul > li.dropdown > a:after{
@@ -1105,7 +1121,7 @@ img {
   line-height:24px;
   font-size:16px;
   font-weight:900;
-  z-index:5;  
+  z-index:5;
 }
 
 .main-menu .navigation > li.dropdown:hover > ul,
@@ -1124,7 +1140,7 @@ img {
   filter: alpha(opacity=100);
   top: 0%;
   -webkit-transform: rotateX(0);
-  transform: rotateX(0); 
+  transform: rotateX(0);
 }
 
 .main-menu .navigation li.dropdown .dropdown-btn{
@@ -1137,7 +1153,7 @@ img {
   font-size:18px;
   line-height:26px;
   color:#3b3b3b;
-  cursor:pointer;
+ cursor: default !important; 
   display: none;
   z-index:5;
   transition: all 500ms ease;
@@ -1145,7 +1161,7 @@ img {
 
 .main-menu .navigation li.current.dropdown .dropdown-btn,
 .main-menu .navigation li:hover .dropdown-btn{
-  
+
 }
 
 .main-menu .navigation li.dropdown ul li.dropdown .dropdown-btn{
@@ -1157,7 +1173,7 @@ img {
   float: right;
   font-size: 40px;
   line-height: 50px;
-  cursor: pointer;
+
   color: #3786ff;
   display: none;
 }
@@ -1208,7 +1224,7 @@ img {
   float: right;
   font-size: 40px;
   line-height: 50px;
-  cursor: pointer;
+
   color:#3786ff;
   display: none;
 }
@@ -1228,13 +1244,13 @@ img {
 }
 
 .mobile-menu .navbar-collapse{
-  display:block !important; 
+  display:block !important;
 }
 
 .mobile-menu .nav-logo{
   position:relative;
   padding:50px 25px;
-  text-align:left;  
+  text-align:left;
   padding-bottom: 100px;
 }
 
@@ -1306,7 +1322,7 @@ img {
   text-align: center;
   font-size: 16px;
   color: #ffffff;
-  cursor: pointer;
+
   z-index: 10;
   -webkit-transition:all 0.9s ease;
   -moz-transition:all 0.9s ease;
@@ -1361,7 +1377,7 @@ img {
   -moz-transition: all 500ms ease;
   -ms-transition: all 500ms ease;
   -o-transition: all 500ms ease;
-  transition: all 500ms ease; 
+  transition: all 500ms ease;
 }
 
 .mobile-menu .navigation li ul li > a{
@@ -1381,7 +1397,7 @@ img {
   -moz-transition: all 500ms ease;
   -ms-transition: all 500ms ease;
   -o-transition: all 500ms ease;
-  transition: all 500ms ease; 
+  transition: all 500ms ease;
 }
 
 .mobile-menu .navigation li.current > a:before{
@@ -1399,13 +1415,13 @@ img {
   line-height:32px;
   color:#ffffff;
   background:rgba(255,255,255,0.10);
-  cursor:pointer;
+ cursor: default !important; 
   border-radius:2px;
   -webkit-transition: all 500ms ease;
   -moz-transition: all 500ms ease;
   -ms-transition: all 500ms ease;
   -o-transition: all 500ms ease;
-  transition: all 500ms ease; 
+  transition: all 500ms ease;
   z-index:5;
 }
 
@@ -1413,7 +1429,7 @@ img {
   color: #ffffff;
   -webkit-transform:rotate(90deg);
   -ms-transform:rotate(90deg);
-  transform:rotate(90deg);  
+  transform:rotate(90deg);
 }
 
 .mobile-menu .navigation li > ul,
@@ -1442,11 +1458,11 @@ img {
   -moz-transition: all 500ms ease;
   -ms-transition: all 500ms ease;
   -o-transition: all 500ms ease;
-  transition: all 500ms ease; 
+  transition: all 500ms ease;
 }
 
 .mobile-menu .social-links li a:hover{
-  
+
 }
 
 div#mCSB_1_container{
@@ -1479,7 +1495,7 @@ div#mCSB_1_container{
 }
 
 .mobile-menu .contact-info ul li a:hover{
-  
+
 }
 
 .mobile-menu .contact-info ul li:last-child{
@@ -1490,6 +1506,49 @@ div#mCSB_1_container{
   position: relative;
 }
 
+@media only screen and (max-width: 768px) {
+
+.main-header button, .main-header .menu-right-content .user-link a {
+    height: 40px !important;
+    width: 40px !important;
+    line-height: 40px !important;
+    font-size: inherit !important;
+    }
+
+    .main-header .outer-box{
+        display: flex !important;
+        justify-content: space-between;
+    }
+        .main-header .logo-box {
+        order: 2;
+    }
+
+    .main-header .menu-area{
+        order: 3;
+    }
+    .menu-right-content{
+       position: relative !important;
+       order: 1;
+       bottom: unset !important;
+    }
+
+    .booking-form {
+        flex-direction: column;
+    }
+     .booking-form input {
+        max-width: unset !important;
+    }
+
+    .tours-page-section {
+        padding-top: 30px !important;
+    }
+
+}
+
+
+.tours-page-section {
+    padding-top: 30px !important;
+}
 
 /** banner-section **/
 
@@ -1566,8 +1625,8 @@ div#mCSB_1_container{
   border: 1px solid #f9f9f9 !important;
 }
 
-.ui-state-highlight, 
-.ui-widget-content .ui-state-highlight, 
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight,
 .ui-widget-header .ui-state-highlight{
   border: 1px solid #333333 !important;
   background: #333333 !important;
@@ -1578,7 +1637,7 @@ div#mCSB_1_container{
   left: 5px;
 }
 
-.ui-datepicker .ui-datepicker-prev, 
+.ui-datepicker .ui-datepicker-prev,
 .ui-datepicker .ui-datepicker-next {
   border-radius: 30%;
   height: 20px;
@@ -1587,14 +1646,14 @@ div#mCSB_1_container{
   width: 20px;
   background: #fff;
   transition: all 500ms ease;
-  cursor: pointer;
+
 }
 
 .ui-datepicker .ui-datepicker-next {
   right: 5px;
 }
 
-.ui-datepicker .ui-datepicker-prev:hover, 
+.ui-datepicker .ui-datepicker-prev:hover,
 .ui-datepicker .ui-datepicker-next:hover {
   top: 7px;
   border: none;
@@ -2489,7 +2548,7 @@ div#mCSB_1_container{
   height: 72px;
   line-height: 72px;
   text-align: center;
-  cursor: pointer;
+
 }
 
 .map-section .map-inner .map-content .single-location-box .map-marker span{
@@ -2736,7 +2795,7 @@ div#mCSB_1_container{
   border: 1px solid #dcdede;
   border-radius: 50%;
   margin: 0px 8px;
-  cursor: pointer;
+
   background: transparent;
   transition: all 500ms ease;
 }
@@ -3170,7 +3229,7 @@ div#mCSB_1_container{
 
 .footer-bottom{
   position: relative;
-  padding: 28px 0px;
+  padding: 8px 0px;
   background: #0d0e12;
 }
 
@@ -3222,7 +3281,7 @@ div#mCSB_1_container{
 }
 
 
-/*** 
+/***
 
 ====================================================================
                         Home-Page-Two
@@ -3550,7 +3609,7 @@ div#mCSB_1_container{
   background: #ffffff;
   border-radius: 50%;
   margin: 0px 10px;
-  cursor: pointer;
+
   transition: all 500ms ease;
 }
 
@@ -3723,7 +3782,7 @@ div#mCSB_1_container{
 }
 
 
-/*** 
+/***
 
 ====================================================================
                         Home-Page-Three
@@ -3967,7 +4026,7 @@ div#mCSB_1_container{
   border-radius: 50%;
   font-size: 24px;
   color: #222222;
-  cursor: pointer;
+
   transition: all 500ms ease;
 }
 
@@ -4387,7 +4446,7 @@ div#mCSB_1_container{
   border: 1px solid #dcdede;
   border-radius: 50%;
   margin: 0px 8px;
-  cursor: pointer;
+
   background: transparent;
   transition: all 500ms ease;
 }
@@ -4419,7 +4478,7 @@ div#mCSB_1_container{
 }
 
 
-/*** 
+/***
 
 ====================================================================
                         Home-Page-Four
@@ -4598,7 +4657,7 @@ div#mCSB_1_container{
   border-radius: 50%;
   font-size: 24px;
   color: #222222;
-  cursor: pointer;
+
   box-shadow: 0px 0px 30px 0px rgba(6,26,58,0.15);
   transition: all 500ms ease;
 }
@@ -4688,7 +4747,7 @@ div#mCSB_1_container{
 }
 
 
-/*** 
+/***
 
 ====================================================================
                         Home-Page-Five
@@ -4846,7 +4905,7 @@ div#mCSB_1_container{
 }
 
 
-/*** 
+/***
 
 ====================================================================
                         Destinations-Page
@@ -4876,7 +4935,7 @@ div#mCSB_1_container{
 }
 
 .page-title .content-box h1{
-  font-size: 50px;
+  font-size: 40px;
   line-height: 60px;
   font-family: 'Playfair Display', sans-serif;
   color: #ffffff;
@@ -5193,7 +5252,7 @@ div#mCSB_1_container{
   font-size: 18px;
   color: #848484;
   background: transparent;
-  cursor: pointer;
+
   transition: all 500ms ease;
 }
 
@@ -5330,7 +5389,7 @@ div#mCSB_1_container{
 }
 
 
-/*** 
+/***
 
 ====================================================================
                         Tours-Page
@@ -5424,7 +5483,7 @@ div#mCSB_1_container{
   border-radius: 5px;
   color: #94949d;
   background: transparent;
-  cursor: pointer;
+
   margin-right: 10px;
   transition: all 500ms ease;
 }
@@ -5455,7 +5514,7 @@ div#mCSB_1_container{
   width: 15px;
   height: 15px;
   border: 1px solid #d2d4d9;
-  cursor: pointer;
+
   border-radius: 3px;
 }
 
@@ -5483,7 +5542,7 @@ div#mCSB_1_container{
   padding: 0px;
   font-size: 15px;
   color: #808080;
-  cursor: pointer;
+
   font-weight: 500;
 }
 
@@ -5524,7 +5583,7 @@ div#mCSB_1_container{
   height:18px;
   border: none;
   border-radius:50%;
-  cursor:pointer; 
+ cursor: default !important; 
   margin-left: 0px;
 }
 
@@ -5579,7 +5638,7 @@ div#mCSB_1_container{
 }
 
 .page-title.style-two{
-  padding-bottom: 0px;
+  padding-bottom: 1px;
 }
 
 .page-title.style-two .form-inner{
@@ -5593,7 +5652,7 @@ div#mCSB_1_container{
   z-index: 1;
 }
 
-.page-title.style-two .booking-form .form-group input[type='text'], 
+.page-title.style-two .booking-form .form-group input[type='text'],
 .page-title.style-two .booking-form .form-group .nice-select {
   border: 1px solid #e6ebeb !important;
 }
@@ -5603,7 +5662,7 @@ div#mCSB_1_container{
 }
 
 .page-title.style-two .content-box{
-  margin-bottom: 102px;
+  margin-bottom: 90px;
 }
 
 .page-title.style-three{
@@ -6015,11 +6074,11 @@ div#mCSB_1_container{
   -ms-transition:all 1500ms ease;
   -o-transition:all 1500ms ease;
   -moz-transition:all 1500ms ease;
-  transition:all 1500ms ease; 
+  transition:all 1500ms ease;
 }
 
 .progress-box .bar-inner.counted .count-text{
-  opacity:1;  
+  opacity:1;
 }
 
 .progress-box p{
@@ -6215,7 +6274,7 @@ div#mCSB_1_container{
 }
 
 
-/*** 
+/***
 
 ====================================================================
                         About-Page
@@ -6403,7 +6462,8 @@ div#mCSB_1_container{
 .booking-process-content .processing-form .form-group input[type='email'],
 .booking-process-content .processing-form .form-group input[type='number'],
 .booking-process-content .processing-form .form-group input[type='password'],
-.booking-process-content .processing-form .form-group textarea{
+.booking-process-content .processing-form .form-group input[type='date'],
+.booking-process-content .processing-form .form-group textarea, .nice-select, .nice-select ul{
   position: relative;
   display: block;
   width: 100%;
@@ -6415,6 +6475,9 @@ div#mCSB_1_container{
   width: 500;
   padding: 10px 20px;
   transition: all 500ms ease;
+}
+.nice-select ul {
+height:unset;
 }
 
 .booking-process-content .processing-form .form-group input:focus,
@@ -6768,7 +6831,7 @@ div#mCSB_1_container{
   top: 0px;
   right: 6px;
   text-align: center;
-  cursor: pointer;
+
   transition: all 500ms ease;
   z-index: 1;
 }
@@ -6792,7 +6855,7 @@ div#mCSB_1_container{
   display: block;
   overflow: hidden;
   padding: 19px 80px 21px 30px;
-  cursor: pointer;
+
   transition: all 500ms ease;
 }
 
@@ -7656,4 +7719,8 @@ div#mCSB_1_container{
 .contact-section .form-inner .form-group input:focus,
 .contact-section .form-inner .form-group textarea:focus{
 
+}
+
+.tour-details-content ul, .tour-details-content li  {
+list-style: inside !important;
 }

@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %} Destinations {% endblock %}
-{% block body %}
 
+{% load custom_tags %}
+{% set_var 'destinations' as active_page %}
+
+{% block title %}
+    {{ active_page }}
+{% endblock %}
+{% block body %}
 
    <!-- Page Title -->
         <section class="page-title centred" style="background-image: url({{ destination_info.banner_image.url }});">

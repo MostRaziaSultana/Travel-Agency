@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Payment {% endblock %}
+{% block body %}
+
+<!-- Page Title -->
+<section class="page-title centred" style="background-image: url({{ tour_details.bannerimage.url }});">
+    <div class="auto-container">
+        <div class="content-box">
+            <h1>Booking Process 2</h1>
+            <p>Discover your next great adventure</p>
+        </div>
+    </div>
+</section>
+<!-- End Page Title -->
+
+<!-- booking-section -->
+<section class="booking-section booking-process-2">
+    <div class="auto-container">
+        <div class="row clearfix">
+            <div class="col-lg-8 col-md-12 col-sm-12 content-side">
+                <div class="booking-process-content mr-20">
+                    <ul class="process-label clearfix">
+                        <li><span>1.</span>Personal Info</li>
+                        <li class="current"><span>2.</span>Payment Info</li>
+                        <li><span>3.</span>Confirm</li>
+                    </ul>
+                    <div class="inner-box">
+                        <form action="" method="POST" class="processing-form">
+                            {% csrf_token %}
+                            <div class="payment-option">
+                                <h3>Payment Method</h3>
+                                <div class="form-group">
+                                    <label>
+                                        <input type="radio" name="payment_method" value="manual" checked onclick="toggleCardInfo()"> Manual Payment
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="payment_method" value="ssl" onclick="showSSLError()"> SSL Payment
+                                    </label>
+                                </div>
+
+                                <div id="sslError" style="display: none; color: red; margin-top: 10px;">
+                                    SSL security is currently not enabled for this payment system. For the safety of your data, SSL support will be added soon. Thank you for your patience and understanding.
+                                </div>
+
+                                <div id="cardInfo">
+                                    <h3>Card Info</h3>
+                                    <div class="row clearfix">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 column">
+                                            <div class="form-group">
+                                                <label for="payment_type">Payment Type</label>
+                                                <select name="payment_type" id="payment_type" required>
+                                                    <option value="bkash">Bkash</option>
+                                                    <option value="nagad">Nagad</option>
+                                                    <option value="upay">Upay</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 column">
+                                            <div class="form-group">
+                                                <label>Account No</label>
+                                                <input type="text" name="account_no" placeholder="Enter your account number" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 column">
+                                            <div class="form-group">
+                                                <label for="transaction-id">Transaction ID</label>
+                                                <input
+                                                    type="text" id="transaction-id" name="transaction"
+                                                    placeholder="Enter the transaction ID" pattern="[a-zA-Z0-9-]+"
+                                                    title="Transaction ID should contain only letters, numbers, or hyphens."
+                                                    required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 column">
+                                            <div class="form-group">
+                                                <label>Amount</label>
+                                                 <input type="number" name="amount" placeholder="Enter the amount" min="0" step="1" required >
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 column">
+                                            <div class="form-group">
+                                                <label for="payment_date">Payment Date: (optional)</label>
+                                                <input type="date" name="payment_date" id="payment_date">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h4 style="text-align: center; color: blue; font-weight: bold; text-decoration: underline; margin-top: 80px;">
+                                    ম্যানুয়াল পেমেন্ট পদ্ধতি
+                                </h4>
+                                <div class="payment-description" style="margin-top: 20px;">
+                                    {{ payment_description.payment_description|safe }}
+                                </div>
+
+                                <div class="form-group message-btn clearfix">
+                                    <button type="submit" class="theme-btn">Next<i class="far fa-angle-right"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
+                <div class="process-sidebar ml-20">
+                    <div class="content-box">
+                        <h3>Tour Summary</h3>
+                        <figure class="image-box"><img src="{{ tour_details.image.url }}" alt="image"></figure>
+                        <h4>{{ tour_details.location }}</h4>
+                        <ul class="info clearfix">
+                            <li><i class="far fa-calendar-alt"></i>From: <span>{{ tour_details.start_date }}</span></li>
+                            <li><i class="far fa-calendar-alt"></i>To: <span>{{ tour_details.end_date }}</span></li>
+                            <li><i class="far fa-user-alt"></i>Guests: <span>{{ booking.adult }} Adults, {{ booking.children }} Child</span></li>
+                        </ul>
+                        <h4>Total: tk <span id="totalPrice">{{ tour_details.price }}</span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- booking-section end -->
+
+<script>
+    function toggleCardInfo() {
+        const cardInfo = document.getElementById('cardInfo');
+        const sslError = document.getElementById('sslError');
+        cardInfo.style.display = 'block';
+        sslError.style.display = 'none';
+    }
+
+    function showSSLError() {
+        const cardInfo = document.getElementById('cardInfo');
+        const sslError = document.getElementById('sslError');
+        cardInfo.style.display = 'none';
+        sslError.style.display = 'block';
+    }
+
+    // Ensure the correct card info visibility on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        toggleCardInfo();
+    });
+</script>
+
+{% endblock %}

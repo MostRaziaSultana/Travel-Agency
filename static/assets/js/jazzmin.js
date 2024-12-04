@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Initially hide the child items of each nav-header
         let nextSibling = header.nextElementSibling;
-        while (nextSibling && !nextSibling.classList.contains('nav-header')) {
+        while (nextSibling && !nextSibling.classList.contains('nav-header') && !nextSibling.classList.contains('nav-expt')) {
             nextSibling.style.display = 'none'; // Start with hidden child nav-items
             nextSibling = nextSibling.nextElementSibling;
         }
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to toggle the visibility of child nav-items
     function toggleNavItems(isVisible, header) {
         let nextSibling = header.nextElementSibling;
-        while (nextSibling && !nextSibling.classList.contains('nav-header')) {
+        while (nextSibling && !nextSibling.classList.contains('nav-header') && !nextSibling.classList.contains('nav-expt')) {
             nextSibling.style.display = isVisible ? 'none' : 'block'; // Show/hide
             nextSibling = nextSibling.nextElementSibling;
         }
