@@ -25,8 +25,11 @@ def tours(request):
 
 
     search_query = request.GET.get('search-field')
+
     if search_query:
-        tours = Package.objects.filter(Q(destination__icontains=search_query))
+        tours = tours.filter(
+            Q(destination__icontains=search_query) | Q(location__icontains=search_query)
+        )
 
     paginator = Paginator(tours, 3)
     page_number = request.GET.get('page', 1)

@@ -223,7 +223,7 @@
                                         <div class="form-container">
                                              <form method="GET" action="{% url 'tours' %}">
                                                 <div class="form-group">
-                                                    <input type="search" name="search-field" value="" placeholder="Search...." required="">
+                                                    <input type="text" name="service" value="{{ request.GET.service|default:'' }}" placeholder="Search...." required="">
                                                     <button type="submit" class="search-btn"><span class="fas fa-search"></span></button>
                                                 </div>
                                             </form>
