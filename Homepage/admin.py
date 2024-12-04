@@ -21,7 +21,7 @@ class HeaderAdmin(admin.ModelAdmin):
 
     def logo_thumbnail(self, obj):
         if obj.logo:
-            return format_html('<img src="{}" width="80" height="50" />', obj.logo.url)
+            return format_html('<img src="{}" width="80" height="40" />', obj.logo.url)
         return "No Logo"
     logo_thumbnail.short_description = 'Logo'
 

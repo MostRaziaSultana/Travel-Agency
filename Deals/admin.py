@@ -9,7 +9,7 @@ from django.utils.html import format_html
 
 @admin.register(Package)
 class PackageAdmin(admin.ModelAdmin):
-    list_display = ('id','package_code', 'location', 'price', 'available_seats', 'start_date', 'end_date', 'status', 'creator', 'update_link', 'delete_link')
+    list_display = ('serial_number','package_code', 'location', 'price', 'available_seats', 'start_date', 'end_date', 'status', 'creator', 'update_link', 'delete_link')
     search_fields = ('package_code', 'location', 'status')
     list_filter = ('status', 'start_date', 'end_date', 'hot_deal', 'show_on_homepage')
     readonly_fields = ('created_at', 'updated_at')
@@ -61,18 +61,26 @@ class PackageAdmin(admin.ModelAdmin):
 
     delete_link.short_description = 'Delete'
 
+    def serial_number(self, obj):
+        """Return the serial number for the row."""
+        # Use the current queryset for the model admin and get the row's index
+        # Note: `self.model` is the model for the current admin
+        return list(self.get_queryset(obj).values_list('id', flat=True)).index(obj.id) + 1
+
+    serial_number.short_description = 'S.No'  # Display name for the column
+    serial_number.admin_order_field = 'id'  # Allow sorting by the model's primary key
+
 
 
 class PaymentInfoAdmin(admin.ModelAdmin):
     list_display = (
-        'id_with_tag',
+        'serial_number_with_tag',
         'payment_type',
         'payment_status',
         'transaction_id',
         'amount',
         'payment_date',
         'get_user',
-        'seen',
         'update_link',
         'delete_link',
     )
@@ -80,31 +88,36 @@ class PaymentInfoAdmin(admin.ModelAdmin):
     search_fields = ('transaction_id', 'booking__creator__username', 'booking__creator__email')
     list_per_page = 20
 
-    def id_with_tag(self, obj):
+    def serial_number_with_tag(self, obj):
         """
-        Display the ID with a "New" tag if the PaymentInfo is unseen.
+        Display the serial number with a "New" tag if the PaymentInfo is unseen.
         """
-        if not obj.seen:
-            return format_html(
-                '{} <span style="color: white; background-color: #385a7f; padding: 2px 5px; border-radius: 3px; font-size: 0.9em;">New</span>',
-                obj.id
-            )
-        return obj.id
+        request = self.request
+        queryset = self.get_queryset(request)
+        serial_number = list(queryset).index(obj) + 1
 
-    id_with_tag.short_description = "ID"
+        tag_html = ""
+        if not obj.seen:
+            tag_html = (
+                '<br><span style="color: white; background-color: #385a7f; '
+                'padding: 2px 5px; border-radius: 3px; font-size: 0.9em;">New</span>'
+            )
+        return format_html(f'{serial_number}{tag_html}')
+
+    serial_number_with_tag.short_description = "S.No"
+
+    def get_queryset(self, request):
+        """
+        Attach the request to the admin instance and fetch the queryset.
+        """
+        self.request = request
+        return super().get_queryset(request)
 
     def get_user(self, obj):
         """Display the user (creator) from the associated booking."""
         return obj.booking.creator
 
     get_user.short_description = 'User'
-
-    def change_view(self, request, object_id, form_url='', extra_context=None):
-        obj = self.get_object(request, object_id)
-        if obj and not obj.seen:
-            obj.seen = True
-            obj.save()
-        return super(PaymentInfoAdmin, self).change_view(request, object_id, form_url, extra_context)
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         obj = self.get_object(request, object_id)
@@ -138,64 +151,68 @@ admin.site.register(PaymentInfo, PaymentInfoAdmin)
 
 
 
+
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ( 'id_with_tag', 'creator', 'package_id', 'booking_date', 'status', 'travel_status', 'price_at_booking','seen', 'update_link', 'delete_link')
-    list_filter = ('status','travel_status', 'booking_date')
+    list_display = ('serial_number_with_tag', 'creator', 'package_id', 'booking_date', 'status',
+                    'travel_status', 'price_at_booking', 'seen', 'update_link', 'delete_link')
+    list_filter = ('status', 'travel_status', 'booking_date')
     search_fields = ('first_name', 'last_name', 'creator__username', 'package_id__destination')
     ordering = ('-booking_date',)  # Order by booking date descending
     list_per_page = 20
 
-    def id_with_tag(self, obj):
+    def serial_number_with_tag(self, obj):
         """
-        Display the ID with a "New" tag if the Booking is unseen.
+        Display the serial number with the "New" tag below it if the booking is unseen.
         """
-        if not obj.seen:
-            return format_html(
-                '{} <span style="color: white; background-color: #385a7f; padding: 2px 5px; border-radius: 3px; font-size: 0.9em;">New</span>',
-                obj.id
-            )
-        return obj.id
+        # Find the position of the current object in the queryset
+        request = self.request
+        queryset = self.get_queryset(request)
+        serial_number = list(queryset).index(obj) + 1
 
-    id_with_tag.short_description = "ID"
+        tag_html = ""
+        if not obj.seen:
+            tag_html = (
+                '<br><span style="color: white; background-color: #385a7f; '
+                'padding: 2px 5px; border-radius: 3px; font-size: 0.9em;">New</span>'
+            )
+        return format_html(f'{serial_number}{tag_html}')
+
+    serial_number_with_tag.short_description = "S.No"
+
+    def get_queryset(self, request):
+        """
+        Attach the request to the admin instance and fetch the queryset.
+        """
+        self.request = request
+        return super().get_queryset(request)
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         obj = self.get_object(request, object_id)
         if obj and not obj.seen:
             obj.seen = True
             obj.save()
-        return super(BookingAdmin, self).change_view(request, object_id, form_url, extra_context)
+        return super().change_view(request, object_id, form_url, extra_context)
 
     def save_model(self, request, obj, form, change):
         if not obj.creator:
             obj.creator = request.user
         super().save_model(request, obj, form, change)
 
-    def changelist_view(self, request, extra_context=None):
-        # Fetch last 10 bookings
-        last_bookings = Booking.objects.order_by('-created_at')[:10]
-        print(f"Last 10 bookings fetched: {[booking.id for booking in last_bookings]}")
-
-        # Pass the bookings to the context
-        extra_context = extra_context or {}
-        extra_context['last_bookings'] = last_bookings
-
-        return super().changelist_view(request, extra_context=extra_context)
-
-
     def update_link(self, obj):
         update_url = reverse('admin:Deals_booking_change', args=[obj.id])
         return format_html(
-            '<a class="button" href="{}" style="color: white; background-color: green; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Update</a>',
+            '<a class="button" href="{}" style="color: white; background-color: green; '
+            'padding: 5px 10px; border-radius: 5px; text-decoration: none;">Update</a>',
             update_url
         )
 
     update_link.short_description = 'Update'
 
-
     def delete_link(self, obj):
         delete_url = reverse('admin:Deals_booking_delete', args=[obj.id])
         return format_html(
-            '<a class="button" href="{}" style="color: white; background-color: red; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Delete</a>',
+            '<a class="button" href="{}" style="color: white; background-color: red; '
+            'padding: 5px 10px; border-radius: 5px; text-decoration: none;">Delete</a>',
             delete_url
         )
 
@@ -203,6 +220,7 @@ class BookingAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Booking, BookingAdmin)
+
 
 
 @admin.register(Tour_page)
@@ -243,14 +261,51 @@ class TourPageAdmin(admin.ModelAdmin):
 
 
 class DestinationAdmin(admin.ModelAdmin):
-    list_display = ('id','get_destination_name','package' ,'languages_spoken', 'visa_requirements', 'support_phone','show_on_homepage', 'update_link', 'delete_link')
+    list_display = (
+        'serial_number',
+        'get_destination_name',
+        'package',
+        'languages_spoken',
+        'visa_requirements',
+        'support_phone',
+        'show_on_homepage',
+        'update_link',
+        'delete_link',
+    )
     list_per_page = 20
 
+    def serial_number(self, obj):
+        """
+        Display a serial number for each row in the admin list.
+        """
+        # Calculate the index of the object in the current page of the queryset
+        request = self.request
+        queryset = self.get_queryset(request)
+        start_index = request.GET.get('p', 0)  # Page number
+        index = list(queryset).index(obj) + 1 + int(start_index) * self.list_per_page
+        return index
+
+    serial_number.short_description = "S.No"
+
+    def get_queryset(self, request):
+        """
+        Attach the request object to the admin instance to calculate serial numbers.
+        """
+        self.request = request
+        return super().get_queryset(request)
+
     def get_destination_name(self, obj):
+        """
+        Return the destination name from the associated package.
+        """
         return obj.package.destination
+
     get_destination_name.short_description = 'Destination Name'
 
     def update_link(self, obj):
+        """
+        Provide an update link for the destination.
+        """
         update_url = reverse('admin:Deals_destination_change', args=[obj.id])
         return format_html(
             '<a class="button" href="{}" style="color: white; background-color: green; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Update</a>',
@@ -260,6 +315,9 @@ class DestinationAdmin(admin.ModelAdmin):
     update_link.short_description = 'Update'
 
     def delete_link(self, obj):
+        """
+        Provide a delete link for the destination.
+        """
         delete_url = reverse('admin:Deals_destination_delete', args=[obj.id])
         return format_html(
             '<a class="button" href="{}" style="color: white; background-color: red; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Delete</a>',
