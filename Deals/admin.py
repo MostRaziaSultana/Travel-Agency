@@ -157,7 +157,6 @@ class BookingAdmin(admin.ModelAdmin):
                     'travel_status', 'price_at_booking', 'seen', 'update_link', 'delete_link')
     list_filter = ('status', 'travel_status', 'booking_date')
     search_fields = ('first_name', 'last_name', 'creator__username', 'package_id__destination')
-    ordering = ('-booking_date',)  # Order by booking date descending
     list_per_page = 20
 
     def serial_number_with_tag(self, obj):

@@ -22,6 +22,8 @@ urlpatterns = [
     path('destination_details/<int:id>/', destination_details, name='destination_details'),
     path('bookings/payment/<int:booking_id>/', payment, name='payment'),
     path('success/<int:booking_id>/', success, name='success'),
+    path('payment-session/', payment_session, name='payment_session'),
+    path('success_session/', success_session, name='success_session'),
 
     path('registration/', registration, name='registration'),
     path('login/', login, name='login'),

@@ -1,5 +1,7 @@
 from django.db import models
 from ckeditor.fields import RichTextField
+from django.core.exceptions import ValidationError
+from datetime import date
 
 class Header(models.Model):
     logo = models.ImageField(upload_to='header/logo/', blank=True, null=True, default='default_images/default_logo.png')
@@ -37,7 +39,10 @@ class Destinationinfo(models.Model):
     def __str__(self):
         return self.description
 
-
+def validate_year(value):
+    current_year = date.today().year
+    if value > current_year:
+        raise ValidationError(f"The year {value} cannot be in the future.")
 class FooterContent(models.Model):
     logo = models.ImageField(upload_to='footer_logos/')
     site_name = models.CharField(max_length=255,null=True)
@@ -45,7 +50,7 @@ class FooterContent(models.Model):
     address = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)
     email = models.EmailField()
-    copyright_year = models.PositiveIntegerField(null=True,blank=True)
+    copyright_year = models.PositiveIntegerField(default=date.today().year,null=True,blank=True,validators=[validate_year],help_text="Year for copyright (cannot be in the future).")
     instagram = models.CharField(max_length=255, blank=True, null=True)
     twitter = models.CharField(max_length=255, blank=True, null=True)
     youtube = models.CharField(max_length=255, blank=True, null=True)
@@ -54,9 +59,7 @@ class FooterContent(models.Model):
 
     def __str__(self):
         return f"Footer Content - {self.site_name}"
-    # class Meta:
-    #     verbose_name = "Footer Info"
-    #     verbose_name_plural = "Footer Info"
+
 
 
 class FooterGalleryGroup(models.Model):
