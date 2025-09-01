@@ -38,11 +38,29 @@ def gallery(request):
     })
 
 
+# def destinations(request):
+#     destinations = Destination.objects.all()
+#     destination_info = Destinationinfo.objects.first()
+#     return render(request, 'Tour/destinations.html', { 'destinations': destinations,
+#         'destination_info':destination_info,})
+
+
 def destinations(request):
-    destinations = Destination.objects.all()
+    destinations_list = Destination.objects.all()
     destination_info = Destinationinfo.objects.first()
-    return render(request, 'Tour/destinations.html', { 'destinations': destinations,
-        'destination_info':destination_info,})
+
+    paginator = Paginator(destinations_list, 3)
+    page_number = request.GET.get('page', 1)
+    destinations = paginator.get_page(page_number)
+
+    return render(request, 'Tour/destinations.html', {
+        'destinations': destinations,
+        'results_start': destinations.start_index(),
+        'results_end': destinations.end_index(),
+        'total_results': destinations.paginator.count,
+        'page_obj': destinations,
+        'destination_info': destination_info,
+    })
 
 
 def destination_details(request, id):

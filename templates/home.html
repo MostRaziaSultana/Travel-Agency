@@ -114,7 +114,6 @@
                                         <li><i class="far fa-clock"></i>{{ i.duration }}</li>
                                         <li><i class="far fa-map"></i>{{ i.flight_details }}</li>
                                     </ul>
-                                    <p><p>{{ i.short_description|safe }}</p>
                                     <div class="btn-box">
                                         <a href="{% url 'tour_details' i.id %}">See Details</a>
                                     </div>
@@ -144,7 +143,8 @@
                     <div class="offer-block-one" onclick="window.location='{% url 'tour_details' i.id %}'">
 
                         <div class="inner-box">
-                            <figure class="image-box"><img src="{{ i.image.url }}" alt="images"></figure>
+                            <figure class="image-box"><img src="{{ i.image.url }}" alt="images">
+                            </figure>
                             <div class="content-box">
                                 <span>{{ i.offer }}</span>
                                 <h3><a href="{% url 'tour_details' i.id %}">{{ i.destination }}</a></h3>

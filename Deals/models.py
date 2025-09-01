@@ -15,7 +15,6 @@ class Package(models.Model):
 
     package_code = models.CharField(max_length=50, unique=True, default=generate_package_code)
     location = models.CharField(max_length=255)
-    short_description = RichTextField()
     tour_plan_description = RichTextField(blank=True, null=True,
                                           help_text="Detailed description of the tour plan")
     destination = models.CharField(max_length=255)

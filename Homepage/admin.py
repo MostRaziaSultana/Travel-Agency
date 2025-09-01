@@ -148,18 +148,14 @@ admin.site.register(Gallery, GalleryAdmin)
 
 @admin.register(FooterContent)
 class FooterContentAdmin(admin.ModelAdmin):
-    list_display = ('site_name', 'email', 'phone', 'copyright_year','update_link', 'delete_link')
+    list_display = ('site_name', 'email', 'phone', 'update_link', 'delete_link')
     search_fields = ('site_name', 'email', 'phone')
-    readonly_fields = ('copyright_year',)
     fieldsets = (
         ('Basic Information', {
             'fields': ('logo', 'site_name', 'info_text', 'address', 'phone', 'email')
         }),
         ('Social Media Links', {
             'fields': ('instagram', 'twitter', 'youtube', 'linkedin', 'facebook')
-        }),
-        ('Other Information', {
-            'fields': ('copyright_year',)
         }),
     )
 

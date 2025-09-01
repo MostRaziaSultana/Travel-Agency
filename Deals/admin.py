@@ -15,7 +15,7 @@ class PackageAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
     fieldsets = (
         ('Basic Information', {
-            'fields': ('package_code', 'location', 'price','child_price', 'duration', 'offer', 'creator', 'destination','short_description','overview','tour_plan_description' )
+            'fields': ('package_code', 'location', 'price','child_price', 'duration', 'offer', 'creator', 'destination','overview','tour_plan_description' )
         }),
         ('Seats and Availability', {
             'fields': ('total_seats', 'available_seats', 'minimum_age')
