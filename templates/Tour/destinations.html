@@ -33,10 +33,16 @@
                      {% for i in destinations %}
                     <div class="col-lg-4 col-md-6 col-sm-12 place-block">
                         <div class="place-block-one">
-                            <div class="inner-box">
-                                <figure class="image-box"><img src="{{ i.image.url }}" alt="destination-images"></figure>
+                           <div class="inner-box">
+                                <a href="{% url 'destination_details' i.id %}">
+                                    <figure class="image-box">
+                                        <img src="{{ i.image.url }}" alt="destination-images">
+                                    </figure>
+                                </a>
                                 <div class="text">
-                                    <h3><a href="{% url 'destination_details' i.id %}">{{ i.package.destination }}</a></h3>
+                                    <h3>
+                                        <a href="{% url 'destination_details' i.id %}">{{ i.package.destination }}</a>
+                                    </h3>
                                 </div>
                             </div>
                         </div>
