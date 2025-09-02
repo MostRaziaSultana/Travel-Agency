@@ -13,7 +13,8 @@ from .models import (AboutSection,
                      FooterGalleryGroup,
                      GalleryImage,
 Banner,
-                     Gallery,Header)
+                     Gallery,Header,
+                     SMTPConfig)
 
 class HeaderAdmin(admin.ModelAdmin):
     list_display = ('title', 'logo_thumbnail', 'favicon_thumbnail', 'header_banner_thumbnail', 'update_link', 'delete_link')
@@ -218,3 +219,27 @@ class BannerAdmin(admin.ModelAdmin):
     delete_link.short_description = "Delete"
     login_banner_preview.short_description = "Login Banner Preview"
     registration_banner_preview.short_description = "Registration Banner Preview"
+    
+    
+class SMTPConfigAdmin(admin.ModelAdmin):
+    list_display = ('smtp_host', 'smtp_port', 'smtp_user', 'use_tls', 'use_ssl', 'is_active', 'update_link', 'delete_link')
+    search_fields = ('smtp_host', 'smtp_user')
+
+    def update_link(self, obj):
+        update_url = reverse('admin:Homepage_smtpconfig_change', args=[obj.id])
+        return format_html(
+            '<a class="button" href="{}" style="color: white; background-color: green; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Update</a>',
+            update_url
+        )
+    update_link.short_description = 'Update'
+
+    def delete_link(self, obj):
+        delete_url = reverse('admin:Homepage_smtpconfig_delete', args=[obj.id])
+        return format_html(
+            '<a class="button" href="{}" style="color: white; background-color: red; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Delete</a>',
+            delete_url
+        )
+    delete_link.short_description = 'Delete'
+
+
+admin.site.register(SMTPConfig, SMTPConfigAdmin)

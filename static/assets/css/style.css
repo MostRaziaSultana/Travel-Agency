@@ -3061,7 +3061,11 @@ div#mCSB_1_container{
   position: relative;
   margin-bottom: 35px;
 }
-
+.footer-widget.logo-widget .footer-logo img {
+    max-width: 200px;
+    height: auto;
+    display: block;
+}
 .footer-top .logo-widget .text{
   margin-bottom: 50px;
 }

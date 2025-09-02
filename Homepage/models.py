@@ -113,4 +113,14 @@ class Banner(models.Model):
 
 
 
+class SMTPConfig(models.Model):
+    smtp_host = models.CharField(max_length=255)
+    smtp_port = models.PositiveIntegerField(default=587)
+    smtp_user = models.CharField(max_length=255,null=True)
+    smtp_password = models.CharField(max_length=255,null=True)
+    use_tls = models.BooleanField(default=True)
+    use_ssl = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return f"{self.smtp_user} ({self.smtp_host})"
